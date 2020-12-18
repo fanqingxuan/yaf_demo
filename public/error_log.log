@@ -1,0 +1,1 @@
+Notice:Undefined index: 42S02 in file E:\php_project\yaf\libs\ExceptionHandler.php on line 37:SQLSTATE[42S02]: Base table or view not found: 1146 Table 'demo.tbl_post' doesn't exist in file E:\php_project\yaf\libs\Medoo.php on line 169
