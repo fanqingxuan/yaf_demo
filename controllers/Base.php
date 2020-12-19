@@ -1,6 +1,7 @@
 <?php
 
-class BaseController extends Yaf_Controller_Abstract {
+class BaseController extends Yaf_Controller_Abstract
+{
 
     /**
      * @var [Yaf_Request_Http]
@@ -12,18 +13,22 @@ class BaseController extends Yaf_Controller_Abstract {
      */
     protected $response;
 
-    public function init() {
+    public function init()
+    {
     }
 
-    public function success($message, $data, $code = 0) {
+    public function success($message, $data, $code = 0)
+    {
         return $this->setContent($data, $message, $code);
     }
 
-    public function error($message, $data = [], $code = 1) {
+    public function error($message, $data = [], $code = 1)
+    {
         return $this->setContent($data, $message, $code);
     }
     
-    private function setContent($data, $message, $code) {
+    private function setContent($data, $message, $code)
+    {
         $content = [
             'code'      =>  (int)$code,
             'data'      =>  $data,
@@ -35,5 +40,4 @@ class BaseController extends Yaf_Controller_Abstract {
         $response->setHeader('Content-Type', 'application/json; charset=utf-8');
         return $response;
     }
-
 }

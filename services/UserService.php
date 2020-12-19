@@ -1,7 +1,7 @@
 <?php
 
-class UserService extends BaseService {
-
+class UserService extends BaseService
+{
     private $userModel;
 
     public function __construct()
@@ -10,11 +10,12 @@ class UserService extends BaseService {
         $this->userModel = new UserModel;
     }
 
-    public function findUser($userId) {
+    public function findUser($userId)
+    {
         $data = $this->redis->hGetAll("user:".$userId);
-        if(!$data) {
+        if (!$data) {
             $data = $this->userModel->findByPk($userId);
-            $this->redis->hMSet("user:".$userId,$data);
+            $this->redis->hMSet("user:".$userId, $data);
         }
         return $data;
     }

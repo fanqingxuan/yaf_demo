@@ -87,7 +87,7 @@ class JRedis
     /**
      * Create JRedis Client Instance
      *
-     * @return void
+     * @return JRedis
      */
     public static function getInstance()
     {
@@ -4573,7 +4573,7 @@ class JRedis
      */
     public function evaluateSha($scriptSha, $args = array(), $numKeys = 0)
     {
-        return $this->redis->evaluateSha($scriptSha, $arg, $numKeys);
+        return $this->redis->evaluateSha($scriptSha, $args, $numKeys);
     }
 
     /**

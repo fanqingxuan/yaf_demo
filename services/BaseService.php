@@ -1,6 +1,7 @@
 <?php
 
-class BaseService {
+class BaseService
+{
 
     /**
      * @var JRedis

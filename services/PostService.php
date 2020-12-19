@@ -1,7 +1,7 @@
 <?php
 
-class PostService extends BaseService {
-
+class PostService extends BaseService
+{
     private $postModel;
 
     public function __construct()
@@ -11,7 +11,8 @@ class PostService extends BaseService {
         $this->postModel = new PostModel;
     }
 
-    public function findAllPost() {
+    public function findAllPost()
+    {
         return $this->postModel->findAll();
     }
 }

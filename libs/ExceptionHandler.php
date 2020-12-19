@@ -1,63 +1,45 @@
 <?php
 
-class ExceptionHandler {
-
+class ExceptionHandler
+{
     private static $php_errors = array(
-        E_ERROR				 => 'Fatal Error',
-        E_USER_ERROR		 => 'User Error',
-        E_PARSE				 => 'Parse Error',
-        E_WARNING			 => 'Warning',
-        E_USER_WARNING		 => 'User Warning',
-        E_STRICT			 => 'Strict',
-        E_NOTICE			 => 'Notice',
-        E_RECOVERABLE_ERROR	 => 'Recoverable Error',
-
-/**
- * case YAF_ERR_STARTUP_FAILED:
-        break;
-        case YAF_ERR_DISPATCH_FAILED:
-        break;
-        case YAF_ERR_AUTOLOAD_FAILED:
-        break;
-        case YAF_ERR_NOTFOUND_MODULE :
-        break;
-        case YAF_ERR_NOTFOUND_CONTROLLER :
-        break;
-        case YAF_ERR_NOTFOUND_ACTION:
-        break;
-        case YAF_ERR_NOTFOUND_ACTION:
-        break;
-        case YAF_ERR_NOTFOUND_VIEW:
-        break;
-        case YAF_ERR_TYPE_ERROR:
-        break; 
- */
-        
+        E_ERROR                 => 'Fatal Error',
+        E_USER_ERROR            => 'User Error',
+        E_PARSE                 => 'Parse Error',
+        E_WARNING               => 'Warning',
+        E_USER_WARNING          => 'User Warning',
+        E_STRICT                => 'Strict',
+        E_NOTICE                => 'Notice',
+        E_RECOVERABLE_ERROR     => 'Recoverable Error',    
     );
 
-    public static function registerShutDown() {
+    public static function registerShutDown()
+    {
         $error = error_get_last();
         
         if (!empty($error)) {
-            self::_exceptionHandler($error['message'],$error['type'],$error['file'],$error['line']);
+            self::_exceptionHandler($error['message'], $error['type'], $error['file'], $error['line']);
         }
     }
 
-    public static function exception_handler($exception) {
+    public static function exception_handler($exception)
+    {
         self::_parseMessage($exception);
     }
 
-    private static function _exceptionHandler($message,$code,$filename,$lineno) {
-        $exception = new ErrorException($message,$code,0,$filename,$lineno);
+    private static function _exceptionHandler($message, $code, $filename, $lineno)
+    {
+        $exception = new ErrorException($message, $code, 0, $filename, $lineno);
 
         self::_parseMessage($exception);
     }
     
 
-    private static function _parseMessage($exception) {
+    private static function _parseMessage($exception)
+    {
         $message = '';
-        if($exception instanceof Yaf_Exception_LoadFailed) {
-            if($exception->getPrevious()) {
+        if ($exception instanceof Yaf_Exception_LoadFailed) {
+            if ($exception->getPrevious()) {
                 $exception = $exception->getPrevious();
             }
         }
@@ -68,10 +50,10 @@ class ExceptionHandler {
         $message .= $exception->getFile().' on line ';
         $message .= $exception->getLine()."\r\n";
         $debugMode = Yaf_Registry::get('config')->application->debug;
-        if($debugMode) {
+        if ($debugMode) {
             echo $message;
         } else {
-            Logger::error("",$message,'error');
+            Logger::error("", $message, 'error');
             header('Content-Type:application/json; charset=utf-8');
             http_response_code(500);
             echo json_encode(['code'=>500,'message'=>'服务器内部错误','data'=>[]]);
@@ -80,7 +62,8 @@ class ExceptionHandler {
         exit;
     }
 
-    public static function errorHandler($errno, $errstr ,$errfile, $errline) {
-        self::_exceptionHandler($errstr, $errno ,$errfile, $errline);
+    public static function errorHandler($errno, $errstr, $errfile, $errline)
+    {
+        self::_exceptionHandler($errstr, $errno, $errfile, $errline);
     }
 }

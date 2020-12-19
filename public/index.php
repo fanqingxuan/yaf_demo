@@ -1,12 +1,12 @@
 <?php
 
 //必须安装yaf的c扩展
-if(!extension_loaded('yaf')) {
+if (!extension_loaded('yaf')) {
     die('没有安装yaf扩展');
 }
 
 //必须安装seaslog日志扩展
-if(!extension_loaded('seaslog')) {
+if (!extension_loaded('seaslog')) {
     die('没有安装seaslog扩展');
 }
 
@@ -19,7 +19,6 @@ require_once APPLICATION_PATH."libs/Loader.php";
 
 spl_autoload_register(['Loader','loadClass']);
 
-$application = new Yaf_Application( APPLICATION_PATH . "config/application.ini");
+$application = new Yaf_Application(APPLICATION_PATH . "config/application.ini");
 
 $application->bootstrap()->run();
-?>
