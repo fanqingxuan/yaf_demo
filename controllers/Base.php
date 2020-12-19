@@ -1,7 +1,20 @@
 <?php
 
 class BaseController extends Yaf_Controller_Abstract {
-    
+
+    /**
+     * @var [Yaf_Request_Http]
+     */
+    protected $request;
+
+    /**
+     * @var [Yaf_Response_Http]
+     */
+    protected $response;
+
+    public function init() {
+    }
+
     public function success($message, $data, $code = 0) {
         return $this->setContent($data, $message, $code);
     }
@@ -9,7 +22,7 @@ class BaseController extends Yaf_Controller_Abstract {
     public function error($message, $data = [], $code = 1) {
         return $this->setContent($data, $message, $code);
     }
-
+    
     private function setContent($data, $message, $code) {
         $content = [
             'code'      =>  (int)$code,

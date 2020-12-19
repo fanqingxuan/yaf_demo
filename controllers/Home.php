@@ -4,7 +4,7 @@ class HomeController extends BaseController {
 
 	/**
 	 *
-	 * @var PostService
+	 * @var [PostService]
 	 */
 	private $postService;
 	/**
@@ -14,6 +14,7 @@ class HomeController extends BaseController {
 	private $userService;
 
 	public function init() {
+		parent::init();
 		$this->postService = new PostService;
 		$this->userService = new UserService;
 	}
