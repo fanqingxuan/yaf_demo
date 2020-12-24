@@ -119,6 +119,9 @@ class BaseModel
      */
     public function fields($columns)
     {
+        if($columns != '*' && is_string($columns)) {
+            $columns = explode(',',$columns);
+        }
         $this->columns = $columns;
         return $this;
     }

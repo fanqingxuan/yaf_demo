@@ -79,9 +79,6 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
             'option'   =>   [
                 PDO::ATTR_ERRMODE   => PDO::ERRMODE_EXCEPTION
             ],
-            'command' => [
-                'SET SQL_MODE=ANSI_QUOTES',
-            ]
         ];
         Yaf_Registry::set('db', new Medoo($config));
     }

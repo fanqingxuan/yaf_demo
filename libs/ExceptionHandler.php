@@ -43,6 +43,7 @@ class ExceptionHandler
                 $exception = $exception->getPrevious();
             }
         }
+
         $code = $exception->getCode();
         $type_str = isset(self::$php_errors[$code])?self::$php_errors[$code]:self::$php_errors[E_ERROR].":Uncaught Exception";
         $message .= "PHP ".$type_str.':';
@@ -50,8 +51,37 @@ class ExceptionHandler
         $message .= $exception->getFile().' on line ';
         $message .= $exception->getLine()."\r\n";
         $debugMode = Yaf_Registry::get('config')->application->debug;
+
+        if($exception instanceof PDOException) {
+            $traceList = $exception->getTrace();
+            $tmpMessageList = [];
+            foreach($traceList as $trace) {
+                $file = isset($trace['file'])?$trace['file']:$file;
+                $str ="文件:".$file;
+                if(isset($trace['line'])) {
+                    $str .= " 行数:".$trace['line'];
+                }
+                if(isset($trace['function'])) {
+                    $str .= " 函数:".$trace['function'];
+                }
+                if(isset($trace['class'])) {
+                    $str .= " 类:".$trace['class'];
+                }
+                $tmpMessageList[] = $str;
+            }
+            if($tmpMessageList) {
+                $message .=implode("\r\n",$tmpMessageList)."\r\n";
+            }
+        }
+        if(Yaf_Registry::get('db')) {
+            $lastSql = Yaf_Registry::get('db')->last();
+            if($lastSql) {
+                $message .= "最后执行的sql语句:".$lastSql."\r\n";
+            }
+        }
+        
         if ($debugMode) {
-            echo $message;
+            echo str_replace("\r\n","<br/>",$message);
         } else {
             Logger::error("", $message, 'error');
             header('Content-Type:application/json; charset=utf-8');

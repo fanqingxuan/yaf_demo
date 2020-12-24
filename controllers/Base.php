@@ -17,7 +17,7 @@ class BaseController extends Yaf_Controller_Abstract
     {
     }
 
-    public function success($message, $data, $code = 0)
+    public function success($message, $data = [], $code = 0)
     {
         return $this->setContent($data, $message, $code);
     }
