@@ -195,5 +195,15 @@ Logger::emergency($keywords,$message);
   ```php
   application.dispatcher.defaultAction = index
   ```
+- 默认action
+
+  ```php
+  application.dispatcher.defaultAction = index
+  ```
+- 日志级别
+	```
+	;debug,info,warn,error,emergency
+	logging.level = error
+	```
 
   
