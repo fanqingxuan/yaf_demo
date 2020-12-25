@@ -42,4 +42,13 @@ class HomeController extends BaseController
         Logger::error("list", $list);
         return $this->success("成功", $list);
     }
+	
+	public function logAction() {
+		Logger::debug("debug keywords","this is debug message");
+		Logger::info("info keywords","this is info message");
+		Logger::warn("warn keywords","this is warn message");
+		Logger::error("error keywords","this is error message");
+		Logger::emergency("emergency keywords","this is emergency message");
+		return $this->success("成功");
+	}
 }

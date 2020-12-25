@@ -1,6 +1,9 @@
 ### 环境要求
-- yaf版本3.2.5
 - php版本7.0+
+- yaf扩展
+- Seaslog扩展
+- phpredis扩展(需要使用redis的话)
+
 
 ### 框架说明
 该项目使用yaf搭建的一个开箱即用的web api项目
@@ -76,7 +79,7 @@ class UserModel extends BaseModel
 
   ```php
   $data = $model->fields(['title','content'])->where(['id'=>10])->get();//查询字段是数组
-  $data = $model->fields(['title','content'])->where(['id'=>10])->get();//查询字段是字符串
+  $data = $model->fields('title,content')->where(['id'=>10])->get();//查询字段是字符串
   
   $where = ['id'=>10];
   $data = $model->get($where);//查询所有字段
@@ -94,7 +97,7 @@ class UserModel extends BaseModel
 
   ```php
   $data = $model->fields(['title','content'])->where(['id'=>10])->all();//查询字段是数组
-  $data = $model->fields(['title','content'])->where(['id'=>10])->all();//查询字段是字符串
+  $data = $model->fields('title,content')->where(['id'=>10])->all();//查询字段是字符串
   
   $where = ['id'=>10];
   $data = $model->all($where);//查询所有字段
@@ -149,6 +152,19 @@ Logger::emergency($keywords,$message);
 
 可以在config配置文件里面用配置项logging.level配置需要记录的日志级别
 
+日志格式
+```shell
+时间 | 日志级别 | 进程ID | 请求唯一戳 | 毫秒格式时间戳 | 日志关键字 | 日志内容
+```
+如下
+```shell
+2020-12-25 08:55:30 | DEBUG | 40524 | 5fe53882aa1a3 | 1608857730.736 | debug keywords | this is debug message
+2020-12-25 08:55:30 | INFO | 40524 | 5fe53882aa1a3 | 1608857730.737 | info keywords | this is info message
+2020-12-25 08:55:30 | WARNING | 40524 | 5fe53882aa1a3 | 1608857730.737 | warn keywords | this is warn message
+2020-12-25 08:55:30 | ERROR | 40524 | 5fe53882aa1a3 | 1608857730.737 | error keywords | this is error message
+2020-12-25 08:55:30 | EMERGENCY | 40524 | 5fe53882aa1a3 | 1608857730.737 | emergency keywords | this is emergency message
+
+```
 ### 配置项说明
 
 - 配置文件里面支持redis配置
