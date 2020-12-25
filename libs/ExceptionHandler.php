@@ -51,7 +51,6 @@ class ExceptionHandler
         $message .= $exception->getFile().' on line ';
         $message .= $exception->getLine()."\r\n";
         $debugMode = Yaf_Registry::get('config')->application->debug;
-
         if($exception instanceof PDOException) {
             $traceList = $exception->getTrace();
             $tmpMessageList = [];
@@ -85,8 +84,21 @@ class ExceptionHandler
         } else {
             Logger::error("", $message, 'error');
             header('Content-Type:application/json; charset=utf-8');
-            http_response_code(500);
-            echo json_encode(['code'=>500,'message'=>'服务器内部错误','data'=>[]]);
+			
+			$notFoundCode = [YAF_ERR_NOTFOUND_MODULE,YAF_ERR_NOTFOUND_CONTROLLER,YAF_ERR_NOTFOUND_ACTION,YAF_ERR_NOTFOUND_VIEW];
+			
+			$statusCode = 500;
+			$msg = '服务器内部错误';
+			if(in_array($code,$notFoundCode)) {
+				$statusCode = 404;
+				$msg = '页面不存在';
+			}
+            http_response_code($statusCode);
+			$response = ['code'=>$statusCode,'message'=>$msg,'data'=>[]];
+			Logger::setLevel('info');
+			Logger::info("response", $response, 'request');
+			Logger::setLevel(Yaf_Registry::get('config')->logging->level);
+            echo json_encode($response);
         }
         
         exit;
