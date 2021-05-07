@@ -1,6 +1,6 @@
 <?php
 
-class UserService extends BaseService
+class UserService extends Service
 {
     private $userModel;
 

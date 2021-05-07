@@ -1,6 +1,6 @@
 <?php
 
-class HomeController extends BaseController
+class HomeController extends Controller
 {
 
     /**
@@ -23,8 +23,7 @@ class HomeController extends BaseController
     public function indexAction()
     {
         Logger::error("测试了", "helloworld");
-        $data['post'] = $this->postService->findAllPost();
-        return $this->success('成功', $data);
+        return $this->success('成功', []);
     }
 
     public function userAction()

@@ -1,6 +1,6 @@
 <?php
 
-class BaseModel
+class Model
 {
     protected $primary_key = 'id';
     protected $db;

@@ -1,6 +1,6 @@
 <?php
 
-class PostService extends BaseService
+class PostService extends Service
 {
     private $postModel;
 

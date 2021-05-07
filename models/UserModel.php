@@ -1,11 +1,11 @@
 <?php
 
-class UserModel extends BaseModel
+class UserModel extends Model
 {
-    protected $primary_key = 'id';
+    protected $primary_key = 'suid';
 
     public static function tableName()
     {
-        return 't_user';
+        return 'sls_p_user';
     }
 }

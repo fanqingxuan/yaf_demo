@@ -1,17 +1,7 @@
 <?php
 
-class BaseController extends Yaf_Controller_Abstract
+class Controller extends Yaf_Controller_Abstract
 {
-
-    /**
-     * @var [Yaf_Request_Http]
-     */
-    protected $request;
-
-    /**
-     * @var [Yaf_Response_Http]
-     */
-    protected $response;
 
     public function init()
     {
