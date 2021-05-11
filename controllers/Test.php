@@ -4,7 +4,7 @@ class TestController extends BaseController {
 
     /**
      *
-     * @var [PostModel]
+     * @var PostModel
      */
     public $post;
 

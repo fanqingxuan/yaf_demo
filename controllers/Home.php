@@ -5,12 +5,12 @@ class HomeController extends Controller
 
     /**
      *
-     * @var [PostService]
+     * @var PostService
      */
     private $postService;
     /**
      *
-     * @var [UserService]
+     * @var UserService
      */
     private $userService;
 
