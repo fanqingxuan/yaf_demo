@@ -82,6 +82,13 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
         ];
         Yaf_Registry::set('db', new Medoo($config));
     }
+
+    //初始化Beanstalkd
+    public function _initBeanstalkd() {
+        $config = Yaf_Registry::get('config')->beanstalkd->toArray();
+        $beanstalkd = Pheanstalk\Pheanstalk::create($config['host'],$config['port'],$config['connectTimeout']);
+        Yaf_Registry::set('beanstalkd', $beanstalkd);
+    }
     
     public function _initView(Yaf_Dispatcher $dispatcher)
     {

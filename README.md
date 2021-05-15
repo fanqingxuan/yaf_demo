@@ -3,6 +3,7 @@
 - yaf扩展3.2.5
 - Seaslog扩展
 - phpredis扩展(需要使用redis的话)
+- pda/pheanstalk高性能任务队列
 
 
 ### 框架说明
