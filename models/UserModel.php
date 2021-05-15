@@ -8,4 +8,8 @@ class UserModel extends Model
     {
         return 'sls_p_user';
     }
+
+    public function findByName($username) {
+        return $this->query("select * FROM user WHERE username=:username",[":username"=>$username]);
+    }
 }

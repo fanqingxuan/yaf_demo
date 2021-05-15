@@ -22,6 +22,8 @@ class HomeController extends Controller
     }
     public function indexAction()
     {
+        $userModel = new UserModel;
+        print_r($userModel->findByName("哈哈"));
         Logger::error("测试了", "helloworld");
         return $this->success('成功', []);
     }

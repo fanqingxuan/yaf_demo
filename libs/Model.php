@@ -3,7 +3,11 @@
 class Model
 {
     protected $primary_key = 'id';
-    protected $db;
+    /**
+     *
+     * @var Medoo
+     */
+    private $db;
     private $where = [];
     private $columns = '*';
 
@@ -24,7 +28,7 @@ class Model
     }
 
     /**
-     * Converts a word into the format for a Doctrine table name. Converts 'ModelName' to 'model_name'.
+     * Converts a word fomat from 'ModelName' to 'model_name'.
      */
     private static function tableize($word)
     {
@@ -278,13 +282,13 @@ class Model
         }
     }
 
-    public function query($sql)
+    public function query($sql,$params = [])
     {
         $_sql = strtoupper(trim($sql));
         if (strpos($_sql, "SELECT") !== 0) {
-            throw new Exception("Only support the sql of select");
+            throw new Exception("Only support the sql of select,Please check the sql:".$sql);
         }
-        return $this->db->query($sql)->fetchAll();
+        return $this->db->query($sql,$params)->fetchAll();
     }
 
     /**
