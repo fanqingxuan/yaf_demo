@@ -1,6 +1,6 @@
 ### 环境要求
-- php版本7.0+
-- yaf扩展
+- php版本7.1+
+- yaf扩展3.2.5
 - Seaslog扩展
 - phpredis扩展(需要使用redis的话)
 

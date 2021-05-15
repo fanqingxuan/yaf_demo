@@ -44,7 +44,7 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
     //注册插件
     public function _initPlugin(Yaf_Dispatcher $dispatcher)
     {
-        $logPlugin = new LogPlugin();
+        $logPlugin = new RequestLogPlugin();
         $dispatcher->registerPlugin($logPlugin);
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-class LogPlugin extends Yaf_Plugin_Abstract
+class RequestLogPlugin extends Yaf_Plugin_Abstract
 {
     public function routerStartup(Yaf_Request_Abstract $request, Yaf_Response_Abstract $response)
     {
