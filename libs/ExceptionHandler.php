@@ -96,6 +96,18 @@ class ExceptionHandler
             http_response_code($statusCode);
 			$response = ['code'=>$statusCode,'message'=>$msg,'data'=>[]];
 			Logger::setLevel('info');
+            $request = Yaf_Dispatcher::getInstance()->getRequest();
+            if(!$request->isRouted()) {//没有到路由的请求，补充request的日志
+                $requestData = [
+                    'method'    =>    $request->getMethod(),
+                    'uri'        =>    urldecode($_SERVER['REQUEST_URI']),
+                    'query'        =>    $request->getQuery(),
+                    'post'        =>    $request->getPost(),
+                    'raw'        =>    $request->getRaw(),
+                ];
+                Logger::info("request", $requestData, 'request');
+
+            }
 			Logger::info("response", $response, 'request');
 			Logger::setLevel(Yaf_Registry::get('config')->logging->level);
             echo json_encode($response);
