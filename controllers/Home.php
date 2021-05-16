@@ -36,6 +36,7 @@ class HomeController extends Controller
 
     public function testAction()
     {
+        $list = [];
         return $this->success("成功", $list);
     }
     

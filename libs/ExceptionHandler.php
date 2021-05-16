@@ -54,7 +54,7 @@ class ExceptionHandler
             $traceList = $exception->getTrace();
             $tmpMessageList = [];
             foreach ($traceList as $trace) {
-                $file = isset($trace['file'])?$trace['file']:$file;
+                $file = isset($trace['file'])?$trace['file']:'';
                 $str ="文件:".$file;
                 if (isset($trace['line'])) {
                     $str .= " 行数:".$trace['line'];
