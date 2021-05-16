@@ -49,7 +49,7 @@ class ExceptionHandler
         $message .= $exception->getMessage().' in ';
         $message .= $exception->getFile().' on line ';
         $message .= $exception->getLine()."\r\n";
-        $debugMode = Yaf_Registry::get('config')->application->debug;
+
         if($exception instanceof PDOException) {
             $traceList = $exception->getTrace();
             $tmpMessageList = [];
@@ -78,39 +78,47 @@ class ExceptionHandler
             }
         }
         
-        if ($debugMode) {
-            echo str_replace("\r\n","<br/>",$message);
-        } else {
-            Logger::error("", $message, 'error');
-            header('Content-Type:application/json; charset=utf-8');
-			
-			$notFoundCode = [YAF_ERR_NOTFOUND_MODULE,YAF_ERR_NOTFOUND_CONTROLLER,YAF_ERR_NOTFOUND_ACTION,YAF_ERR_NOTFOUND_VIEW];
-			
-			$statusCode = 500;
-			$msg = '服务器内部错误';
-			if(in_array($code,$notFoundCode)) {
-				$statusCode = 404;
-				$msg = '页面不存在';
-			}
-            http_response_code($statusCode);
-			$response = ['code'=>$statusCode,'message'=>$msg,'data'=>[]];
-			Logger::setLevel('info');
-            $request = Yaf_Dispatcher::getInstance()->getRequest();
-            if(!$request->isRouted()) {//补充request的日志
-                $requestData = [
-                    'method'    =>    $request->getMethod(),
-                    'uri'        =>    urldecode($_SERVER['REQUEST_URI']),
-                    'query'        =>    $request->getQuery(),
-                    'post'        =>    $request->getPost(),
-                    'raw'        =>    $request->getRaw(),
-                ];
-                Logger::info("request", $requestData, 'request');
-
-            }
-			Logger::info("response", $response, 'request');
-			Logger::setLevel(Yaf_Registry::get('config')->logging->level);
-            echo json_encode($response);
+        header('Content-Type:application/json; charset=utf-8');
+        
+        $notFoundCode = [YAF_ERR_NOTFOUND_MODULE,YAF_ERR_NOTFOUND_CONTROLLER,YAF_ERR_NOTFOUND_ACTION,YAF_ERR_NOTFOUND_VIEW];
+        
+        $statusCode = SERVER_INTERNAL_ERROR_CODE;
+        $msg = '服务器内部错误';
+        $bWriteExceptionLog = true;//是否记录exception日志
+        if(in_array($code,$notFoundCode)) {
+            $statusCode = NOT_FOUND_CODE;
+            $msg = '页面不存在';
+            $bWriteExceptionLog = false;
         }
+
+        if($exception instanceof JException) {
+            $statusCode = JException_CODE;
+            $msg = $exception->getMessage();
+            $bWriteExceptionLog = false;
+        }
+
+        if($bWriteExceptionLog) {
+            Logger::error("", $message, 'error');
+        }
+       
+        http_response_code($statusCode);
+        $response = ['code'=>$statusCode,'message'=>$msg,'data'=>[]];
+        Logger::setLevel('info');
+        $request = Yaf_Dispatcher::getInstance()->getRequest();
+        if(!$request->isRouted()) {//补充request的日志
+            $requestData = [
+                'method'    =>    $request->getMethod(),
+                'uri'        =>    urldecode($_SERVER['REQUEST_URI']),
+                'query'        =>    $request->getQuery(),
+                'post'        =>    $request->getPost(),
+                'raw'        =>    $request->getRaw(),
+            ];
+            Logger::info("request", $requestData, 'request');
+
+        }
+        Logger::info("response", $response, 'request');
+        Logger::setLevel(Yaf_Registry::get('config')->logging->level);
+        echo json_encode($response);
         
         exit;
     }

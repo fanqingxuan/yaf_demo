@@ -23,24 +23,20 @@ class HomeController extends Controller
     public function indexAction()
     {
         $userModel = new UserModel;
-        print_r($userModel->findByName("哈哈"));
         Logger::error("控制器日志", "helloworld");
         return $this->success('成功', []);
     }
 
     public function userAction()
     {
-        $userInfo = $this->userService->findUser((int)$this->request->getQuery('uid'));
-        $this->success('成功', $userInfo);
+        throw new JException("这是自定义异常");
+        return $this->success('成功', []);
     }
 
 
-    public function testLogAction()
+    public function testAction()
     {
-        Logger::debug("测试", "测试debug日志");
-        $post = new PostModel;
-        $list = $post->findAll();
-        Logger::error("list", $list);
+       
         return $this->success("成功", $list);
     }
 	

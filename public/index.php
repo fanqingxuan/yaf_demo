@@ -10,7 +10,6 @@ if (!extension_loaded('seaslog')) {
     die('没有安装seaslog扩展');
 }
 
-error_reporting(0);
 error_reporting(E_ALL & ~E_NOTICE);
 
 /* 定义这个常量是为了在application.ini中引用*/

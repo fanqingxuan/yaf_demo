@@ -7,12 +7,12 @@ class Controller extends Yaf_Controller_Abstract
     {
     }
 
-    public function success($message, $data = [], $code = 0)
+    public function success($message, $data = [], $code = SUCCESS_CODE)
     {
         return $this->setContent($data, $message, $code);
     }
 
-    public function error($message, $data = [], $code = 1)
+    public function error($message, $data = [], $code = FAIL_CODE)
     {
         return $this->setContent($data, $message, $code);
     }

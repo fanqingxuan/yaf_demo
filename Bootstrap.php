@@ -16,9 +16,20 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
         Yaf_Registry::set('config', $arrConfig);
     }
 
+    //加载常量
+    public function _initConstant() {
+        Loader::loadFile(APPLICATION_PATH."constants/");
+    }
+
+    //设置类库路径
     public function _initLibrary(Yaf_Dispatcher $dispatcher)
     {
         Yaf_Loader::getInstance()->setLibraryPath(APPLICATION_PATH.'libs');
+    }
+
+    //加载函数util
+    public function _initUtils(Yaf_Dispatcher $dispatcher) {
+        Loader::loadFile(APPLICATION_PATH."utils/");
     }
 
     //初始化log

@@ -3,6 +3,7 @@
 class TestController extends Controller {
 
     public function indexAction() {
+        $this->redirect("/test/add");
         $this->success("成功",[11,22,33]);
     }  
     

@@ -20,6 +20,8 @@
   - logs 日志目录，里面有default子目录作为业务日志，error子目录错误日志，request子目录做请求日志，日志按天生成文件
   - libs 类库目录
   - hooks 中间件钩子目录
+  - constants 常量目录
+  - utils 辅助函数目录
 
 ### model
 

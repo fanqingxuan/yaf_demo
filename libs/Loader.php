@@ -18,7 +18,18 @@ class Loader
         }
     }
 
-    //注册钩子
+    //加载非类文件
+    public static function loadFile($path) {
+        $fileList = glob($path."*.php");
+       if($fileList) {
+           $loader = Yaf_Loader::getInstance();
+            foreach($fileList as $_file) {
+                $loader->import($_file);
+            }
+       }
+    }
+
+    //加载&注册钩子
     public static function registerHook() {
         $hookConfigDict = require_once("../config/hook.php");
         $dispatcher = Yaf_Dispatcher::getInstance();
