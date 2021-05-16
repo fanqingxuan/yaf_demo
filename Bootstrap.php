@@ -17,7 +17,8 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
     }
 
     //加载常量
-    public function _initConstant() {
+    public function _initConstant()
+    {
         Loader::loadFile(APPLICATION_PATH."constants/");
     }
 
@@ -28,7 +29,8 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
     }
 
     //加载函数util
-    public function _initUtils(Yaf_Dispatcher $dispatcher) {
+    public function _initUtils(Yaf_Dispatcher $dispatcher)
+    {
         Loader::loadFile(APPLICATION_PATH."utils/");
     }
 
@@ -95,9 +97,10 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
     }
 
     //初始化Beanstalkd
-    public function _initBeanstalkd() {
+    public function _initBeanstalkd()
+    {
         $config = Yaf_Registry::get('config')->beanstalkd->toArray();
-        $beanstalkd = Pheanstalk\Pheanstalk::create($config['host'],$config['port'],$config['connectTimeout']);
+        $beanstalkd = Pheanstalk\Pheanstalk::create($config['host'], $config['port'], $config['connectTimeout']);
         Yaf_Registry::set('beanstalkd', $beanstalkd);
     }
     

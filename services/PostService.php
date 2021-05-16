@@ -13,6 +13,6 @@ class PostService extends Service
 
     public function findAllPost()
     {
-        return $this->postModel->findAll([],'id,content,title');
+        return $this->postModel->findAll([], 'id,content,title');
     }
 }

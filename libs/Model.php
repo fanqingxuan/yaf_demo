@@ -123,8 +123,8 @@ class Model
      */
     public function fields($columns)
     {
-        if($columns != '*' && is_string($columns)) {
-            $columns = explode(',',$columns);
+        if ($columns != '*' && is_string($columns)) {
+            $columns = explode(',', $columns);
         }
         $this->columns = $columns;
         return $this;
@@ -282,13 +282,13 @@ class Model
         }
     }
 
-    public function query($sql,$params = [])
+    public function query($sql, $params = [])
     {
         $_sql = strtoupper(trim($sql));
         if (strpos($_sql, "SELECT") !== 0) {
             throw new Exception("Only support the sql of select,Please check the sql:".$sql);
         }
-        return $this->db->query($sql,$params)->fetchAll();
+        return $this->db->query($sql, $params)->fetchAll();
     }
 
     /**

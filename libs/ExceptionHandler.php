@@ -10,7 +10,7 @@ class ExceptionHandler
         E_USER_WARNING          => 'User Warning',
         E_STRICT                => 'Strict',
         E_NOTICE                => 'Notice',
-        E_RECOVERABLE_ERROR     => 'Recoverable Error',    
+        E_RECOVERABLE_ERROR     => 'Recoverable Error',
     );
 
     public static function registerShutDown()
@@ -50,30 +50,30 @@ class ExceptionHandler
         $message .= $exception->getFile().' on line ';
         $message .= $exception->getLine()."\r\n";
 
-        if($exception instanceof PDOException) {
+        if ($exception instanceof PDOException) {
             $traceList = $exception->getTrace();
             $tmpMessageList = [];
-            foreach($traceList as $trace) {
+            foreach ($traceList as $trace) {
                 $file = isset($trace['file'])?$trace['file']:$file;
                 $str ="文件:".$file;
-                if(isset($trace['line'])) {
+                if (isset($trace['line'])) {
                     $str .= " 行数:".$trace['line'];
                 }
-                if(isset($trace['function'])) {
+                if (isset($trace['function'])) {
                     $str .= " 函数:".$trace['function'];
                 }
-                if(isset($trace['class'])) {
+                if (isset($trace['class'])) {
                     $str .= " 类:".$trace['class'];
                 }
                 $tmpMessageList[] = $str;
             }
-            if($tmpMessageList) {
-                $message .=implode("\r\n",$tmpMessageList)."\r\n";
+            if ($tmpMessageList) {
+                $message .=implode("\r\n", $tmpMessageList)."\r\n";
             }
         }
-        if(Yaf_Registry::get('db')) {
+        if (Yaf_Registry::get('db')) {
             $lastSql = Yaf_Registry::get('db')->last();
-            if($lastSql) {
+            if ($lastSql) {
                 $message .= "最后执行的sql语句:".$lastSql."\r\n";
             }
         }
@@ -85,19 +85,19 @@ class ExceptionHandler
         $statusCode = SERVER_INTERNAL_ERROR_CODE;
         $msg = '服务器内部错误';
         $bWriteExceptionLog = true;//是否记录exception日志
-        if(in_array($code,$notFoundCode)) {
+        if (in_array($code, $notFoundCode)) {
             $statusCode = NOT_FOUND_CODE;
             $msg = '页面不存在';
             $bWriteExceptionLog = false;
         }
 
-        if($exception instanceof JException) {
+        if ($exception instanceof JException) {
             $statusCode = JException_CODE;
             $msg = $exception->getMessage();
             $bWriteExceptionLog = false;
         }
 
-        if($bWriteExceptionLog) {
+        if ($bWriteExceptionLog) {
             Logger::error("", $message, 'error');
         }
        
@@ -105,7 +105,7 @@ class ExceptionHandler
         $response = ['code'=>$statusCode,'message'=>$msg,'data'=>[]];
         Logger::setLevel('info');
         $request = Yaf_Dispatcher::getInstance()->getRequest();
-        if(!$request->isRouted()) {//补充request的日志
+        if (!$request->isRouted()) {//补充request的日志
             $requestData = [
                 'method'    =>    $request->getMethod(),
                 'uri'        =>    urldecode($_SERVER['REQUEST_URI']),
@@ -114,7 +114,6 @@ class ExceptionHandler
                 'raw'        =>    $request->getRaw(),
             ];
             Logger::info("request", $requestData, 'request');
-
         }
         Logger::info("response", $response, 'request');
         Logger::setLevel(Yaf_Registry::get('config')->logging->level);

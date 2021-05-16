@@ -1,11 +1,13 @@
 <?php
-function dump(...$params) {
-    foreach($params as $var) {
+function dump(...$params)
+{
+    foreach ($params as $var) {
         var_dump($var);
     }
 }
 
-function dd(...$params) {
+function dd(...$params)
+{
     dump(...$params);
     die;
 }
