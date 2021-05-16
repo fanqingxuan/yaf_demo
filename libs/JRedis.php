@@ -30,6 +30,9 @@ class JRedis
      */
     const SCAN_NORETRY          = 0;
     const SCAN_RETRY            = 1;
+    const SCAN_PREFIX           = 2;
+    const SCAN_NOPREFIX         = 3;
+
 
     /**
      * Serializers
@@ -2302,15 +2305,20 @@ class JRedis
     }
 
     /**
-     * Authenticate the connection using a password.
+     * Authenticate the connection using a password or a username and password..
      * Warning: The password is sent in plain-text over the network.
      *
-     * @param string $password
+     * @param mixed $password
      *
      * @return bool TRUE if the connection is authenticated, FALSE otherwise
      *
      * @link    https://redis.io/commands/auth
-     * @example $redis->auth('foobared');
+     * @example
+     * <pre>
+     * $redis->auth('bar'); // Authenticate with the password 'bar'
+     * $redis->auth(['user' => 'foo', 'pass' => 'bar]); // Authenticate with the username 'foo', and password 'bar'
+     * </pre>
+
      */
     public function auth($password)
     {
@@ -3096,7 +3104,7 @@ class JRedis
      * @example
      * <pre>
      * <pre>
-     * $redis->zAdd('z', 1, 'v1', 2, 'v2', 3, 'v3', 4, 'v4' );  // int(2)
+     * $redis->zAdd('z', 1, 'v1', 2, 'v2', 3, 'v3', 4, 'v4' );  // int(4)
      * $redis->zRem('z', 'v2', 'v3');                           // int(2)
      * $redis->zAdd('z', ['NX'], 5, 'v5');                      // int(1)
      * $redis->zAdd('z', ['NX'], 6, 'v5');                      // int(0)
