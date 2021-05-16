@@ -11,6 +11,7 @@ if (!extension_loaded('seaslog')) {
 }
 
 error_reporting(0);
+error_reporting(E_ALL & ~E_NOTICE);
 
 /* 定义这个常量是为了在application.ini中引用*/
 define('APPLICATION_PATH', dirname(__FILE__).'/../');

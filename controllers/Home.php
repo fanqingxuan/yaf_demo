@@ -24,7 +24,7 @@ class HomeController extends Controller
     {
         $userModel = new UserModel;
         print_r($userModel->findByName("哈哈"));
-        Logger::error("测试了", "helloworld");
+        Logger::error("控制器日志", "helloworld");
         return $this->success('成功', []);
     }
 

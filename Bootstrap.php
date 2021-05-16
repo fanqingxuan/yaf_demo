@@ -37,15 +37,15 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
         $dispatcher->catchException(false);//异常不交给Error Controller的Error Action处理
         $dispatcher->throwException(true);
         set_exception_handler(array('ExceptionHandler','exception_handler'));
+
         set_error_handler(array('ExceptionHandler','errorHandler'));
         register_shutdown_function(array('ExceptionHandler','registerShutDown'));
     }
 
-    //注册插件
-    public function _initPlugin(Yaf_Dispatcher $dispatcher)
+    //注册钩子
+    public function _initHook(Yaf_Dispatcher $dispatcher)
     {
-        $logPlugin = new RequestLogPlugin();
-        $dispatcher->registerPlugin($logPlugin);
+        Loader::registerHook();
     }
 
     public function _initRoute(Yaf_Dispatcher $dispatcher)

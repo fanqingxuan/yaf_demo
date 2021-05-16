@@ -1,8 +1,8 @@
 <?php
 
-class RequestLogPlugin extends Plugin
+class RequestHook extends Hook
 {
-    public function routerStartup(Yaf_Request_Abstract $request, Yaf_Response_Abstract $response)
+    public function before(Yaf_Request_Abstract $request, Yaf_Response_Abstract $response)
     {
         $requestData = [
             'method'    =>    $request->getMethod(),
@@ -16,7 +16,7 @@ class RequestLogPlugin extends Plugin
         Logger::setLevel(Yaf_Registry::get('config')->logging->level);
     }
 
-    public function dispatchLoopShutdown(Yaf_Request_Abstract $request, Yaf_Response_Abstract $response)
+    public function after(Yaf_Request_Abstract $request, Yaf_Response_Abstract $response)
     {
         $responseData = $response->getBody();
         Logger::setLevel('info');

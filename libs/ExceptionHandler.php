@@ -16,7 +16,6 @@ class ExceptionHandler
     public static function registerShutDown()
     {
         $error = error_get_last();
-        
         if (!empty($error)) {
             self::_exceptionHandler($error['message'], $error['type'], $error['file'], $error['line']);
         }
@@ -97,7 +96,7 @@ class ExceptionHandler
 			$response = ['code'=>$statusCode,'message'=>$msg,'data'=>[]];
 			Logger::setLevel('info');
             $request = Yaf_Dispatcher::getInstance()->getRequest();
-            if(!$request->isRouted()) {//没有到路由的请求，补充request的日志
+            if(!$request->isRouted()) {//补充request的日志
                 $requestData = [
                     'method'    =>    $request->getMethod(),
                     'uri'        =>    urldecode($_SERVER['REQUEST_URI']),
