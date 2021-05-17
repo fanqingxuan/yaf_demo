@@ -22,9 +22,9 @@ final class Yaf_Application {
 	}
 	public static function app():self {
 	}
-	public function environ() {
+	public function environ():self {
 	}
-	public function bootstrap($bootstrap = NULL) {
+	public function bootstrap($bootstrap = NULL):self {
 	}
 	public function getConfig():Yaf_Config_Abstract {
 	}
@@ -32,9 +32,9 @@ final class Yaf_Application {
 	}
 	public function getDispatcher():Yaf_Dispatcher {
 	}
-	public function setAppDirectory($directory):Yaf_Application {
+	public function setAppDirectory($directory):self {
 	}
-	public function getAppDirectory():Yaf_Application {
+	public function getAppDirectory():self {
 	}
 	public function getLastErrorNo() {
 	}
@@ -42,7 +42,7 @@ final class Yaf_Application {
 	}
 	public function clearLastError() {
 	}
-	public function getInstance():Yaf_Application {
+	public function getInstance():self {
 	}
 }
 abstract class Yaf_Bootstrap_Abstract {
