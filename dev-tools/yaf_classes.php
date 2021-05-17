@@ -407,6 +407,8 @@ abstract class Yaf_Response_Abstract {
 	}
 	public function response() {
 	}
+
+	public function setHeader($name,$value) {}
 }
 class Yaf_Response_Http extends Yaf_Response_Abstract {
 	/* constants */
@@ -472,7 +474,7 @@ abstract class Yaf_Controller_Abstract {
 	}
 	public function getRequest() {
 	}
-	public function getResponse() {
+	public function getResponse():Yaf_Response_Abstract {
 	}
 	public function getView() {
 	}
