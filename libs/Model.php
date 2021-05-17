@@ -3,17 +3,13 @@
 class Model
 {
     protected $primary_key = 'id';
-    /**
-     *
-     * @var Medoo
-     */
     private $db;
     private $where = [];
     private $columns = '*';
 
     final public function __construct()
     {
-        $this->db = Yaf_Registry::get('db');
+        $this->db = JContainer::getDb();
     }
 
     /**

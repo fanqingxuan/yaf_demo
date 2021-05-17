@@ -2,6 +2,10 @@
 
 class PostService extends Service
 {
+    /**
+     *
+     * @var PostModel
+     */
     private $postModel;
 
     public function __construct()

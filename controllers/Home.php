@@ -22,7 +22,6 @@ class HomeController extends Controller
     }
     public function indexAction()
     {
-        $userModel = new UserModel;
         Logger::error("控制器日志", "helloworld");
         return $this->success('成功', []);
     }
@@ -47,6 +46,6 @@ class HomeController extends Controller
         Logger::warn("warn keywords", "this is warn message");
         Logger::error("error keywords", "this is error message");
         Logger::emergency("emergency keywords", "this is emergency message");
-        return $this->success("成功");
+        return $this->success("成功",['data'=>$this->userService->findUser(44)]);
     }
 }

@@ -2,6 +2,10 @@
 
 class UserService extends Service
 {
+    /**
+     *
+     * @var UserModel
+     */
     private $userModel;
 
     public function __construct()

@@ -13,7 +13,7 @@ class RequestHook extends Hook
         ];
         Logger::setLevel('info');
         Logger::info("request", $requestData, 'request');
-        Logger::setLevel(Yaf_Registry::get('config')->logging->level);
+        Logger::setLevel(JContainer::get('config')->logging->level);
     }
 
     public function after(Yaf_Request_Abstract $request, Yaf_Response_Abstract $response)
@@ -21,6 +21,6 @@ class RequestHook extends Hook
         $responseData = $response->getBody();
         Logger::setLevel('info');
         Logger::info("response", $responseData, 'request');
-        Logger::setLevel(Yaf_Registry::get('config')->logging->level);
+        Logger::setLevel(JContainer::get('config')->logging->level);
     }
 }

@@ -26,15 +26,15 @@ final class Yaf_Application {
 	}
 	public function bootstrap($bootstrap = NULL) {
 	}
-	public function getConfig() {
+	public function getConfig():Yaf_Config_Abstract {
 	}
 	public function getModules() {
 	}
-	public function getDispatcher() {
+	public function getDispatcher():Yaf_Dispatcher {
 	}
-	public function setAppDirectory($directory) {
+	public function setAppDirectory($directory):Yaf_Application {
 	}
-	public function getAppDirectory() {
+	public function getAppDirectory():Yaf_Application {
 	}
 	public function getLastErrorNo() {
 	}
@@ -42,7 +42,7 @@ final class Yaf_Application {
 	}
 	public function clearLastError() {
 	}
-	public function getInstance() {
+	public function getInstance():Yaf_Application {
 	}
 }
 abstract class Yaf_Bootstrap_Abstract {
@@ -63,11 +63,11 @@ final class Yaf_Dispatcher {
 	}
 	public function setResponse($response) {
 	}
-	public function getApplication() {
+	public function getApplication():Yaf_Application {
 	}
-	public function getRouter() {
+	public function getRouter():Yaf_Router {
 	}
-	public function getResponse() {
+	public function getResponse():Yaf_Response_Abstract {
 	}
 	public function getRequest():Yaf_Request_Http {
 	}
@@ -77,21 +77,21 @@ final class Yaf_Dispatcher {
 	}
 	public function getDefaultAction() {
 	}
-	public function setErrorHandler($callback, $error_types) {
+	public function setErrorHandler($callback, $error_types):Yaf_Dispatcher {
 	}
-	public function setDefaultModule($module) {
+	public function setDefaultModule($module):Yaf_Dispatcher {
 	}
-	public function setDefaultController($controller) {
+	public function setDefaultController($controller):Yaf_Dispatcher {
 	}
-	public function setDefaultAction($action) {
+	public function setDefaultAction($action):Yaf_Dispatcher {
 	}
-	public function returnResponse($flag) {
+	public function returnResponse($flag):Yaf_Dispatcher {
 	}
-	public function autoRender($flag) {
+	public function autoRender($flag):Yaf_Dispatcher {
 	}
-	public function flushInstantly($flag) {
+	public function flushInstantly($flag):Yaf_Dispatcher {
 	}
-	public static function getInstance():self {
+	public static function getInstance():Yaf_Dispatcher {
 	}
 	public function dispatch($request) {
 	}
@@ -99,7 +99,7 @@ final class Yaf_Dispatcher {
 	}
 	public function catchException($flag = NULL) {
 	}
-	public function registerPlugin($plugin) {
+	public function registerPlugin($plugin):Yaf_Dispatcher {
 	}
 }
 final class Yaf_Loader {
@@ -238,15 +238,15 @@ class Yaf_Request_Http extends Yaf_Request_Abstract {
 	}
 	public function isXmlHttpRequest() {
 	}
-	public function getQuery($name, $default = NULL) {
+	public function getQuery($name = '', $default = NULL) {
 	}
-	public function getRequest($name, $default = NULL) {
+	public function getRequest($name = '', $default = NULL) {
 	}
-	public function getPost($name, $default = NULL) {
+	public function getPost($name = '', $default = NULL) {
 	}
 	public function getCookie($name, $default = NULL) {
 	}
-	public function getRaw($name, $default = NULL) {
+	public function getRaw($name = '', $default = NULL) {
 	}
 	public function getFiles($name, $default = NULL) {
 	}
@@ -427,7 +427,7 @@ class Yaf_Response_Http extends Yaf_Response_Abstract {
 	}
 	public function response() {
 	}
-	public function __construct() {
+	private final function __construct() {
 	}
 	public function __toString() {
 	}
@@ -472,7 +472,7 @@ abstract class Yaf_Controller_Abstract {
 	}
 	protected function display($tpl, array $parameters = NULL) {
 	}
-	public function getRequest() {
+	public function getRequest():Yaf_Request_Http {
 	}
 	public function getResponse():Yaf_Response_Abstract {
 	}
@@ -767,11 +767,12 @@ abstract class Yaf_Plugin_Abstract {
 	public function preResponse(Yaf_Request_Abstract $request, Yaf_Response_Abstract $response) {
 	}
 }
+
 final class Yaf_Registry {
 	/* methods */
 	private function __construct() {
 	}
-	public static function get($name):self {
+	public static function get($name) {
 	}
 	public static function has($name) {
 	}
@@ -886,7 +887,7 @@ class Yaf_Exception_StartupError extends Yaf_Exception implements Throwable {
 	public function __toString() {
 	}
 }
-class Yaf_Exception_RouterFAILED', extends Yaf_Exception implements Throwable {
+class Yaf_Exception_RouterFAILED extends Yaf_Exception implements Throwable {
 	/* properties */
 	protected $file = NULL;
 	protected $line = NULL;
@@ -918,7 +919,7 @@ class Yaf_Exception_RouterFAILED', extends Yaf_Exception implements Throwable {
 	public function __toString() {
 	}
 }
-class Yaf_Exception_DispatchFAILED', extends Yaf_Exception implements Throwable {
+class Yaf_Exception_DispatchFAILED extends Yaf_Exception implements Throwable {
 	/* properties */
 	protected $file = NULL;
 	protected $line = NULL;
@@ -950,7 +951,8 @@ class Yaf_Exception_DispatchFAILED', extends Yaf_Exception implements Throwable 
 	public function __toString() {
 	}
 }
-class Yaf_Exception_LoadFAILED', extends Yaf_Exception implements Throwable {
+
+class Yaf_Exception_LoadFAILED extends Yaf_Exception implements Throwable {
 	/* properties */
 	protected $file = NULL;
 	protected $line = NULL;
@@ -982,7 +984,8 @@ class Yaf_Exception_LoadFAILED', extends Yaf_Exception implements Throwable {
 	public function __toString() {
 	}
 }
-class Yaf_Exception_LoadFAILED',_Module extends Yaf_Exception_LoadFAILED', implements Throwable {
+
+class Yaf_Exception_LoadFAILED extends implements Throwable {
 	/* properties */
 	protected $file = NULL;
 	protected $line = NULL;
@@ -1014,7 +1017,7 @@ class Yaf_Exception_LoadFAILED',_Module extends Yaf_Exception_LoadFAILED', imple
 	public function __toString() {
 	}
 }
-class Yaf_Exception_LoadFAILED',_Controller extends Yaf_Exception_LoadFAILED', implements Throwable {
+class Yaf_Exception_LoadFAILED extends implements Throwable {
 	/* properties */
 	protected $file = NULL;
 	protected $line = NULL;
@@ -1046,7 +1049,7 @@ class Yaf_Exception_LoadFAILED',_Controller extends Yaf_Exception_LoadFAILED', i
 	public function __toString() {
 	}
 }
-class Yaf_Exception_LoadFAILED',_Action extends Yaf_Exception_LoadFAILED', implements Throwable {
+class Yaf_Exception_LoadFAILED extends implements Throwable {
 	/* properties */
 	protected $file = NULL;
 	protected $line = NULL;
@@ -1078,7 +1081,7 @@ class Yaf_Exception_LoadFAILED',_Action extends Yaf_Exception_LoadFAILED', imple
 	public function __toString() {
 	}
 }
-class Yaf_Exception_LoadFAILED',_View extends Yaf_Exception_LoadFAILED', implements Throwable {
+class Yaf_Exception_LoadFAILED extends implements Throwable {
 	/* properties */
 	protected $file = NULL;
 	protected $line = NULL;

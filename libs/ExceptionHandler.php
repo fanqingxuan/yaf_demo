@@ -71,8 +71,8 @@ class ExceptionHandler
                 $message .=implode("\r\n", $tmpMessageList)."\r\n";
             }
         }
-        if (Yaf_Registry::get('db')) {
-            $lastSql = Yaf_Registry::get('db')->last();
+        if (JContainer::getDb()) {
+            $lastSql = JContainer::getDb()->last();
             if ($lastSql) {
                 $message .= "最后执行的sql语句:".$lastSql."\r\n";
             }
@@ -116,7 +116,7 @@ class ExceptionHandler
             Logger::info("request", $requestData, 'request');
         }
         Logger::info("response", $response, 'request');
-        Logger::setLevel(Yaf_Registry::get('config')->logging->level);
+        Logger::setLevel(JContainer::get('config')->logging->level);
         echo json_encode($response);
         
         exit;

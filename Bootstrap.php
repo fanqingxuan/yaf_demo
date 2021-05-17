@@ -9,11 +9,17 @@
  */
 class Bootstrap extends Yaf_Bootstrap_Abstract
 {
+    //设置类库路径
+    public function _initLibrary(Yaf_Dispatcher $dispatcher)
+    {
+        Yaf_Loader::getInstance()->setLibraryPath(APPLICATION_PATH.'libs');
+    }
+    
     public function _initConfig()
     {
         //把配置保存起来
         $arrConfig = Yaf_Application::app()->getConfig();
-        Yaf_Registry::set('config', $arrConfig);
+        JContainer::set('config', $arrConfig);
     }
 
     //加载常量
@@ -22,11 +28,7 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
         Loader::loadFile(APPLICATION_PATH."constants/");
     }
 
-    //设置类库路径
-    public function _initLibrary(Yaf_Dispatcher $dispatcher)
-    {
-        Yaf_Loader::getInstance()->setLibraryPath(APPLICATION_PATH.'libs');
-    }
+    
 
     //加载函数util
     public function _initUtils(Yaf_Dispatcher $dispatcher)
@@ -38,7 +40,7 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
     public function _initLog()
     {
         ini_set('seaslog.trace_error', 0);
-        Logger::setLevel(Yaf_Registry::get('config')->logging->level);
+        Logger::setLevel(JContainer::get('config')->logging->level);
         Logger::setBasePath(APPLICATION_PATH.'logs');
     }
 
@@ -69,7 +71,7 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
     //初始化Redis
     public function _initRedis()
     {
-        $redisConfigObj = Yaf_Registry::get('config')->redis;
+        $redisConfigObj = JContainer::get('config')->redis;
         /**
          * @var Jredis
          */
@@ -81,27 +83,27 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
             $redis->setOption(JRedis::OPT_PREFIX, $redisConfigObj->prefix);
         }
         $redis->select((int)$redisConfigObj->dbIndex);
-        Yaf_Registry::set('redis', $redis);
+        JContainer::set('redis', $redis);
     }
 
     //初始化数据库连接
     public function _initDatabase()
     {
-        $config = Yaf_Registry::get('config')->database->toArray();
+        $config = JContainer::get('config')->database->toArray();
         $config = $config + [
             'option'   =>   [
                 PDO::ATTR_ERRMODE   => PDO::ERRMODE_EXCEPTION
             ],
         ];
-        Yaf_Registry::set('db', new Medoo($config));
+        JContainer::set('db', new Medoo($config));
     }
 
     //初始化Beanstalkd
     public function _initBeanstalkd()
     {
-        $config = Yaf_Registry::get('config')->beanstalkd->toArray();
+        $config = JContainer::get('config')->beanstalkd->toArray();
         $beanstalkd = Pheanstalk\Pheanstalk::create($config['host'], $config['port'], $config['connectTimeout']);
-        Yaf_Registry::set('beanstalkd', $beanstalkd);
+        JContainer::set('beanstalkd', $beanstalkd);
     }
     
     public function _initView(Yaf_Dispatcher $dispatcher)
