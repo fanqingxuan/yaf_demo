@@ -42,7 +42,7 @@ class SeasLog
      *
      * @return bool
      */
-    static public function setBasePath($basePath)
+    public static function setBasePath($basePath)
     {
         return true;
     }
@@ -52,7 +52,7 @@ class SeasLog
      *
      * @return string
      */
-    static public function getBasePath()
+    public static function getBasePath()
     {
         return 'the base_path';
     }
@@ -64,7 +64,7 @@ class SeasLog
      *
      * @return bool
      */
-    static public function setRequestID($request_id)
+    public static function setRequestID($request_id)
     {
         return true;
     }
@@ -73,7 +73,7 @@ class SeasLog
      * 获取本次请求标识
      * @return string
      */
-    static public function getRequestID()
+    public static function getRequestID()
     {
         return uniqid();
     }
@@ -85,7 +85,7 @@ class SeasLog
      *
      * @return bool
      */
-    static public function setLogger($logger)
+    public static function setLogger($logger)
     {
         return true;
     }
@@ -98,7 +98,7 @@ class SeasLog
      *
      * @return bool
      */
-    static public function closeLoggerStream($model = SEASLOG_CLOSE_LOGGER_STREAM_MOD_ALL, $logger)
+    public static function closeLoggerStream($model = SEASLOG_CLOSE_LOGGER_STREAM_MOD_ALL, $logger)
     {
         return true;
     }
@@ -107,7 +107,7 @@ class SeasLog
      * 获取最后一次设置的模块目录
      * @return string
      */
-    static public function getLastLogger()
+    public static function getLastLogger()
     {
         return 'the lastLogger';
     }
@@ -119,7 +119,7 @@ class SeasLog
      *
      * @return bool
      */
-    static public function setDatetimeFormat($format)
+    public static function setDatetimeFormat($format)
     {
         return true;
     }
@@ -128,7 +128,7 @@ class SeasLog
      * 返回当前DatetimeFormat配置格式
      * @return string
      */
-    static public function getDatetimeFormat()
+    public static function getDatetimeFormat()
     {
         return 'the datetimeFormat';
     }
@@ -141,7 +141,7 @@ class SeasLog
      *
      * @return bool
      */
-    static public function setRequestVariable($key, $value)
+    public static function setRequestVariable($key, $value)
     {
         return true;
     }
@@ -153,7 +153,7 @@ class SeasLog
      *
      * @return string
      */
-    static public function getRequestVariable($key)
+    public static function getRequestVariable($key)
     {
         return '';
     }
@@ -167,7 +167,7 @@ class SeasLog
      *
      * @return array | long
      */
-    static public function analyzerCount($level = 'all', $log_path = '*', $key_word = null)
+    public static function analyzerCount($level = 'all', $log_path = '*', $key_word = null)
     {
         return array();
     }
@@ -184,7 +184,7 @@ class SeasLog
      *
      * @return array
      */
-    static public function analyzerDetail($level = SEASLOG_INFO, $log_path = '*', $key_word = null, $start = 1, $limit = 20, $order = SEASLOG_DETAIL_ORDER_ASC)
+    public static function analyzerDetail($level = SEASLOG_INFO, $log_path = '*', $key_word = null, $start = 1, $limit = 20, $order = SEASLOG_DETAIL_ORDER_ASC)
     {
         return array();
     }
@@ -194,7 +194,7 @@ class SeasLog
      *
      * @return array
      */
-    static public function getBuffer()
+    public static function getBuffer()
     {
         return array();
     }
@@ -204,7 +204,7 @@ class SeasLog
      *
      * @return bool
      */
-    static public function getBufferEnabled()
+    public static function getBufferEnabled()
     {
         return true;
     }
@@ -214,7 +214,7 @@ class SeasLog
      *
      * @return int
      */
-    static public function getBufferCount()
+    public static function getBufferCount()
     {
         return 0;
     }
@@ -224,7 +224,7 @@ class SeasLog
      *
      * @return bool
      */
-    static public function flushBuffer()
+    public static function flushBuffer()
     {
         return true;
     }
@@ -238,7 +238,7 @@ class SeasLog
      *
      * @return bool
      */
-    static public function debug($message, array $context = array(), $module = '')
+    public static function debug($message, array $context = array(), $module = '')
     {
         #$level = SEASLOG_DEBUG
         return true;
@@ -253,7 +253,7 @@ class SeasLog
      *
      * @return bool
      */
-    static public function info($message, array $context = array(), $module = '')
+    public static function info($message, array $context = array(), $module = '')
     {
         #$level = SEASLOG_INFO
         return true;
@@ -268,7 +268,7 @@ class SeasLog
      *
      * @return bool
      */
-    static public function notice($message, array $context = array(), $module = '')
+    public static function notice($message, array $context = array(), $module = '')
     {
         #$level = SEASLOG_NOTICE
         return true;
@@ -283,7 +283,7 @@ class SeasLog
      *
      * @return bool
      */
-    static public function warning($message, array $context = array(), $module = '')
+    public static function warning($message, array $context = array(), $module = '')
     {
         #$level = SEASLOG_WARNING
         return true;
@@ -298,7 +298,7 @@ class SeasLog
      *
      * @return bool
      */
-    static public function error($message, array $context = array(), $module = '')
+    public static function error($message, array $context = array(), $module = '')
     {
         #$level = SEASLOG_ERROR
         return true;
@@ -313,7 +313,7 @@ class SeasLog
      *
      * @return bool
      */
-    static public function critical($message, array $context = array(), $module = '')
+    public static function critical($message, array $context = array(), $module = '')
     {
         #$level = SEASLOG_CRITICAL
         return true;
@@ -328,7 +328,7 @@ class SeasLog
      *
      * @return bool
      */
-    static public function alert($message, array $context = array(), $module = '')
+    public static function alert($message, array $context = array(), $module = '')
     {
         #$level = SEASLOG_ALERT
         return true;
@@ -343,7 +343,7 @@ class SeasLog
      *
      * @return bool
      */
-    static public function emergency($message, array $context = array(), $module = '')
+    public static function emergency($message, array $context = array(), $module = '')
     {
         #$level = SEASLOG_EMERGENCY
         return true;
@@ -359,9 +359,8 @@ class SeasLog
      *
      * @return bool
      */
-    static public function log($level, $message, array $context = array(), $module = '')
+    public static function log($level, $message, array $context = array(), $module = '')
     {
         return true;
     }
-
 }

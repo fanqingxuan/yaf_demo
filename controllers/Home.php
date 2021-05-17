@@ -46,6 +46,6 @@ class HomeController extends Controller
         Logger::warn("warn keywords", "this is warn message");
         Logger::error("error keywords", "this is error message");
         Logger::emergency("emergency keywords", "this is emergency message");
-        return $this->success("成功",['data'=>$this->userService->findUser(44)]);
+        return $this->success("成功", ['data'=>$this->userService->findUser(44)]);
     }
 }

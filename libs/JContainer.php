@@ -1,12 +1,14 @@
 <?php
 
-class JContainer {
+class JContainer
+{
 
     /**
      *
      * @return Medoo
      */
-    public static function getDb() {
+    public static function getDb()
+    {
         return self::get('db');
     }
 
@@ -14,7 +16,8 @@ class JContainer {
      *
      * @return JRedis
      */
-    public static function getRedis() {
+    public static function getRedis()
+    {
         return self::get('redis');
     }
 
@@ -23,7 +26,8 @@ class JContainer {
      * @param string $name
      * @return void
      */
-    public static function del( string $name ) {
+    public static function del(string $name)
+    {
         Yaf_Registry::del($name);
     }
     
@@ -32,7 +36,8 @@ class JContainer {
      * @param string $name
      * @return mix
      */
-    public static function get( string $name ) {
+    public static function get(string $name)
+    {
         return Yaf_Registry::get($name);
     }
 
@@ -41,7 +46,8 @@ class JContainer {
      * @param string $name
      * @return boolean
      */
-    public static function  has( string $name ) {
+    public static function has(string $name)
+    {
         return Yaf_Registry::has($name);
     }
 
@@ -51,8 +57,8 @@ class JContainer {
      * @param mix $value
      * @return void
      */
-    public static function set( string $name ,$value ) {
-        return Yaf_Registry::set($name,$value);
+    public static function set(string $name, $value)
+    {
+        return Yaf_Registry::set($name, $value);
     }
-
 }
