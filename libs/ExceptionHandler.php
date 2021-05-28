@@ -28,7 +28,7 @@ class ExceptionHandler
 
     private static function _exceptionHandler($message, $code, $filename, $lineno)
     {
-        $exception = new ErrorException($message, $code, 0, $filename, $lineno);
+        $exception = new ErrorException($message, 0, $code, $filename, $lineno);
 
         self::_parseMessage($exception);
     }
