@@ -124,6 +124,10 @@ class ExceptionHandler
 
     public static function errorHandler($errno, $errstr, $errfile, $errline)
     {
+		if (! (error_reporting() & $errno))
+		{
+			return;
+		}
         self::_exceptionHandler($errstr, $errno, $errfile, $errline);
     }
 }
