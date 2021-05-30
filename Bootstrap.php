@@ -51,10 +51,11 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
     {
         $dispatcher->catchException(false);//异常不交给Error Controller的Error Action处理
         $dispatcher->throwException(true);
-        set_exception_handler(array('ExceptionHandler','exception_handler'));
+        $jExceptionHandler = new JExceptionHandler();
 
-        set_error_handler(array('ExceptionHandler','errorHandler'));
-        register_shutdown_function(array('ExceptionHandler','registerShutDown'));
+        set_exception_handler(array($jExceptionHandler,'exceptionHandler'));
+        set_error_handler(array($jExceptionHandler,'errorHandler'));
+        register_shutdown_function(array($jExceptionHandler,'shutdownHandler'));
     }
 
     //注册钩子

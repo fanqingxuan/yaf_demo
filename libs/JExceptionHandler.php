@@ -1,8 +1,8 @@
 <?php
 
-class ExceptionHandler
+class JExceptionHandler
 {
-    private static $php_errors = array(
+    private $php_errors = array(
         E_ERROR                 => 'Fatal Error',
         E_USER_ERROR            => 'User Error',
         E_PARSE                 => 'Parse Error',
@@ -13,28 +13,21 @@ class ExceptionHandler
         E_RECOVERABLE_ERROR     => 'Recoverable Error',
     );
 
-    public static function registerShutDown()
+    public function shutdownHandler()
     {
         $error = error_get_last();
-        if (!empty($error)) {
-            self::_exceptionHandler($error['message'], $error['type'], $error['file'], $error['line']);
-        }
+        if (! is_null($error) && in_array($error['type'], [E_ERROR, E_CORE_ERROR, E_COMPILE_ERROR, E_PARSE], true))
+		{
+			$this->exceptionHandler(new ErrorException($error['message'], $error['type'], 0, $error['file'], $error['line']));
+		}
     }
 
-    public static function exception_handler($exception)
+    public function exceptionHandler($exception)
     {
-        self::_parseMessage($exception);
+        $this->_parseMessage($exception);
     }
 
-    private static function _exceptionHandler($message, $code, $filename, $lineno)
-    {
-        $exception = new ErrorException($message, 0, $code, $filename, $lineno);
-
-        self::_parseMessage($exception);
-    }
-    
-
-    private static function _parseMessage($exception)
+    private function _parseMessage($exception)
     {
         $message = '';
         if ($exception instanceof Yaf_Exception_LoadFailed) {
@@ -44,7 +37,7 @@ class ExceptionHandler
         }
 
         $code = $exception->getCode();
-        $type_str = isset(self::$php_errors[$code])?self::$php_errors[$code]:self::$php_errors[E_ERROR].":Uncaught Exception";
+        $type_str = isset($this->php_errors[$code])?$this->php_errors[$code]:$this->php_errors[E_ERROR].":Uncaught Exception";
         $message .= "PHP ".$type_str.':';
         $message .= $exception->getMessage().' in ';
         $message .= $exception->getFile().' on line ';
@@ -122,12 +115,13 @@ class ExceptionHandler
         exit;
     }
 
-    public static function errorHandler($errno, $errstr, $errfile, $errline)
+    public function errorHandler($severity, $message, $file, $line)
     {
-		if (! (error_reporting() & $errno))
+		if (! (error_reporting() & $severity))
 		{
 			return;
 		}
-        self::_exceptionHandler($errstr, $errno, $errfile, $errline);
+        // Convert it to an exception and pass it along.
+		throw new ErrorException($message, 0, $severity, $file, $line);
     }
 }
