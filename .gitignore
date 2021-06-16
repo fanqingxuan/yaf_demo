@@ -1,3 +1,6 @@
 /logs/*
 /vendor
 .php_cs.cache
+.env.develop.ini
+.env.local.ini
+.env.testing.ini

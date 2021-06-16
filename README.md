@@ -369,14 +369,3 @@ Logger::emergency($keywords,$message);
 	;debug,info,warn,error,emergency
 	logging.level = error
 	```
-
-- beanstalked配置
-
-  ```php
-  ;beanstalkd 配置
-  beanstalkd.host = 127.0.0.1
-  beanstalkd.port = 11300
-  beanstalkd.connectTimeout = 10
-  ```
-
-  

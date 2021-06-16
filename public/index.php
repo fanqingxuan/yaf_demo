@@ -19,6 +19,8 @@ require_once APPLICATION_PATH."libs/Loader.php";
 
 spl_autoload_register(['Loader','loadClass']);
 
-$application = new Yaf_Application(APPLICATION_PATH . ".env.ini");
+$envirement = ini_get('yaf.environ');
+$filename = ".env.".$envirement.".ini";
+$application = new Yaf_Application(APPLICATION_PATH . $filename);
 
 $application->bootstrap()->run();
