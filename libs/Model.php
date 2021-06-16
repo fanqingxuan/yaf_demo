@@ -71,7 +71,7 @@ class Model
     {
         $pk = (int)$pk;
         $where = $pk?[$this->primary_key => $pk]:[];
-        return $this->get($where,$columns);
+        return $this->get($where, $columns);
     }
 
     /**
@@ -91,7 +91,7 @@ class Model
     {
         $pks = is_array($pks)?$pks:explode(',', $pks);
         $where = $pks?[$this->primary_key => $pks]:[];
-        return $this->all($columns,$where);
+        return $this->all($columns, $where);
     }
 
     /**
@@ -292,7 +292,7 @@ class Model
             unset($data[$this->primary_key]);
             return $this->updateByPk($data, $pk);
         } else {
-            return $this->create($data);
+            return $this->insert($data);
         }
     }
 

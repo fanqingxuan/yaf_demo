@@ -16,10 +16,9 @@ class JExceptionHandler
     public function shutdownHandler()
     {
         $error = error_get_last();
-        if (! is_null($error) && in_array($error['type'], [E_ERROR, E_CORE_ERROR, E_COMPILE_ERROR, E_PARSE], true))
-		{
-			$this->exceptionHandler(new ErrorException($error['message'], $error['type'], 0, $error['file'], $error['line']));
-		}
+        if (! is_null($error) && in_array($error['type'], [E_ERROR, E_CORE_ERROR, E_COMPILE_ERROR, E_PARSE], true)) {
+            $this->exceptionHandler(new ErrorException($error['message'], $error['type'], 0, $error['file'], $error['line']));
+        }
     }
 
     public function exceptionHandler($exception)
@@ -117,11 +116,10 @@ class JExceptionHandler
 
     public function errorHandler($severity, $message, $file, $line)
     {
-		if (! (error_reporting() & $severity))
-		{
-			return;
-		}
+        if (! (error_reporting() & $severity)) {
+            return;
+        }
         // Convert it to an exception and pass it along.
-		throw new ErrorException($message, 0, $severity, $file, $line);
+        throw new ErrorException($message, 0, $severity, $file, $line);
     }
 }

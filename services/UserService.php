@@ -25,7 +25,8 @@ class UserService extends Service
         return $data;
     }
 
-    public function addUser($data) {
+    public function addUser($data)
+    {
         return $this->userModel->insert($data);
     }
 }
