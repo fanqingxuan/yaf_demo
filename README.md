@@ -3,7 +3,6 @@
 - yaf扩展3.2.5
 - Seaslog扩展
 - phpredis扩展(需要使用redis的话)
-- pda/pheanstalk高性能任务队列(需要使用任务队列的话)
 
 
 ### 框架说明
@@ -52,7 +51,7 @@ class UserModel extends BaseModel
       'content'   =>  '这是内容',
       'title'     =>  '这是标题',
   ];
-  $id = $model->create($post);
+  $id = $model->insert($post);
   ```
 
 - 删除

@@ -98,14 +98,6 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
         ];
         JContainer::set('db', new Medoo($config));
     }
-
-    //初始化Beanstalkd
-    public function _initBeanstalkd()
-    {
-        $config = JContainer::get('config')->beanstalkd->toArray();
-        $beanstalkd = Pheanstalk\Pheanstalk::create($config['host'], $config['port'], $config['connectTimeout']);
-        JContainer::set('beanstalkd', $beanstalkd);
-    }
     
     public function _initView(Yaf_Dispatcher $dispatcher)
     {

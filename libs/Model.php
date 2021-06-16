@@ -238,9 +238,9 @@ class Model
      * @return int 返回insert id
      * usage:
      * $user = new User;
-     * $user->create(['username'=>'json','email'=>'fxj@acewill.cn'])
+     * $user->insert(['username'=>'json','email'=>'fxj@acewill.cn'])
      */
-    public function create($data)
+    public function insert($data)
     {
         $this->db->insert(static::tableName(), $data);
         return $this->db->id();
