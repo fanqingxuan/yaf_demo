@@ -94,6 +94,10 @@ class UserModel extends BaseModel
   $data = $model->findByPk(10);//查询所有字段
   $data = $model->findByPk(10,'title,content');//查询部分字段
   $data = $model->findByPk(10,['title','content']);//查询部分字段
+
+  $data = $model->fields('title,content')->where(['id'=>10])->find();
+  $data = $model->find(10,'title,content');
+
   ```
 
 - 查询多条数据

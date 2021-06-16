@@ -16,6 +16,7 @@ class UserService extends Service
 
     public function findUser($userId)
     {
+        return $this->userModel->find($userId);
         $data = $this->redis->hGetAll("user:".$userId);
         if (!$data) {
             $data = $this->userModel->findByPk($userId);

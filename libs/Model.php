@@ -57,7 +57,25 @@ class Model
     }
 
     /**
-     * 根据主键查询数据
+     * 查询单条数据
+     *
+     * @param  string|array $pks     主键
+     * @param  array        $columns 查询列
+     * @return array 返回二维数组
+     * usage:
+     * $user = new User;
+     * $user->find(1,['username','password'])
+     * $user->find(1)
+     */
+    public function find($pk = 0, $columns='')
+    {
+        $pk = (int)$pk;
+        $where = $pk?[$this->primary_key => $pk]:[];
+        return $this->get($where,$columns);
+    }
+
+    /**
+     * 查询多条数据
      *
      * @param  string|array $pks     主键
      * @param  array        $columns 查询列
@@ -69,11 +87,11 @@ class Model
      * $user->findAll('1,2,3')
      * $user->findAll([1,2,3])
      */
-    public function findAll($pks = [], $columns='*')
+    public function findAll($pks = [], $columns='')
     {
         $pks = is_array($pks)?$pks:explode(',', $pks);
         $where = $pks?[$this->primary_key => $pks]:[];
-        return $this->fields($columns)->where($where)->all();
+        return $this->all($columns,$where);
     }
 
     /**
