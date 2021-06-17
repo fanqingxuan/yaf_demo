@@ -23,7 +23,8 @@ class HomeController extends Controller
     public function indexAction()
     {
         Logger::error("控制器日志", "helloworld");
-        return $this->success('成功', $this->userService->findUser($this->request->getQuery("userid")));
+       
+        return $this->success('成功', UserModel::select("select username,rname from sls_p_user where suid=? and username=?",[1,'1']));
     }
 
     public function userAction()

@@ -283,12 +283,11 @@ class Medoo
         }
     }
 
-    public function query($query, $map = [])
+    public function query($query, $_map = [])
     {
-        $raw = $this->raw($query, $map);
-
+        $raw = $this->raw($query, $_map);
+        $map = [];
         $query = $this->buildRaw($raw, $map);
-
         return $this->exec($query, $map);
     }
 
@@ -387,12 +386,12 @@ class Medoo
             },
             $raw->value
         );
-
         $raw_map = $raw->map;
-
         if (!empty($raw_map)) {
+            $is_list = array_keys($raw_map) === array_keys(array_keys($raw_map));//是索引数组list
             foreach ($raw_map as $key => $value) {
-                $map[ $key ] = $this->typeMap($value, gettype($value));
+                $_key = $is_list?$key + 1:$key;
+                $map[ $_key ] = $this->typeMap($value, gettype($value));
             }
         }
 

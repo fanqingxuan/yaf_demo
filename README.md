@@ -40,7 +40,7 @@ class UserModel extends BaseModel
 }
 ```
 
-默认用id字段作为主键，可以用`$primary_key`属性自定义表主键，便于下面根据主键查询时使用。
+默认用id字段作为主键，可以用`$primary_key`属性自定义表主键，便于下面根据主键查询时使用。支持使用示例方式、静态方法方式进行db的操作。
 
 - 添加
 
@@ -52,6 +52,9 @@ class UserModel extends BaseModel
       'title'     =>  '这是标题',
   ];
   $id = $model->insert($post);
+
+  UserModel::save($post);
+  UserModel::create($post);
   ```
 
 - 删除
@@ -61,6 +64,10 @@ class UserModel extends BaseModel
   $deleteCount = $model->deleteByPk('1,2,3');//pk是字符串
   $deleteCount = $model->deleteByPk([1,2,3]);//pk是数组
   $deleteCount = $model->delete(['id'=>[1,2,3]]);//根据where条件删除
+
+  UserModel::destroy(1);
+  UserModel::destroy('1,2');  
+  UserModel::destroy([1,2]);
   ```
 
 - 修改
@@ -75,6 +82,9 @@ class UserModel extends BaseModel
   
   $where = ['id'=>10];
   $affectRows = $model->update($data,$where);//根据where条件修改
+
+  $data = ['content'   =>  'this is 444','id'=>10];
+  UserModel::save($data);
   ```
 
 - 查询单条数据
@@ -89,14 +99,10 @@ class UserModel extends BaseModel
   $where = ['id'=>10];
   $fields = ['title','content'];
   $data = $model->get($where,$fields);//查询部分字段
-  
-  $data = $model->findByPk(10);//查询所有字段
-  $data = $model->findByPk(10,'title,content');//查询部分字段
-  $data = $model->findByPk(10,['title','content']);//查询部分字段
 
-  $data = $model->fields('title,content')->where(['id'=>10])->find();
-  $data = $model->find(10,'title,content');
-
+  $data = UserModel::find(10);
+  $data = UserModel::find(10,'title,content');
+  $data = UserModel::find(10,['title','content']);
   ```
 
 - 查询多条数据
@@ -112,16 +118,16 @@ class UserModel extends BaseModel
   $fields = ['title','content'];
   $data = $model->all($where,$fields);//查询部分字段
   
-  $data = $model->findAll();//查询所有数据
+  $data = UserModel::findAll();//查询所有数据
   
   $pks = [1,2,3];
   $fields = ['title','content'];
-  $data = $model->findAll($pks,$fields);
+  $data = UserModel::findAll($pks,$fields);
   
   //根据where条件查找
   $where = ['id'=>[4,5]];
   $fields = ['title','content'];
-  $data = $model->findByCondition($where,$fields);
+  $data = UserModel::findByCondition($where,$fields);
   ```
 
 - 其它
@@ -141,9 +147,14 @@ class UserModel extends BaseModel
   $model->getLastSql();//获取最后执行的sql语句
   
   //进行复杂的查询
-  $model->query("SELECT u.* from post p join user u on p.uid=u.uid ");
-  ```
+  $model->query("SELECT u.* from post p join user u on p.uid=u.uid where u.uid=? ",[1]);
 
+  $model->query("SELECT u.* from post p join user u on p.uid=u.uid where u.uid=:uid ",[":uid"=>1]);
+
+  $data = UserModel::select("SELECT u.* from post p join user u on p.uid=u.uid where u.uid=? ",[1]);
+
+  ```
+**推荐使用提供的静态方法**
 ### hook钩子
 
 将yaf自带的plugin进行了轻度的封装，钩子类在hooks目录进行实现, 然后在`config/hook.php`文件里面配置hook类名称即可自动挂载

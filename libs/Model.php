@@ -3,13 +3,38 @@
 class Model
 {
     protected $primary_key = 'id';
+    
+    /**
+     *
+     * @var Medoo
+     */
     private $db;
+    
     private $where = [];
     private $columns = '*';
+
+    private static $instance = null;
 
     final public function __construct()
     {
         $this->db = JContainer::getDb();
+    }
+
+    private function __clone()
+    {
+        
+    }
+
+    /**
+     * 单例模式
+     *
+     * @return $this 返回当前对象
+     */
+    public static function getInstance() {
+        if(!(self::$instance instanceof static)) {
+            self::$instance = new static();
+        }
+        return self::$instance;
     }
 
     /**
@@ -40,74 +65,6 @@ class Model
         }
 
         return mb_strtolower($tableized);
-    }
-
-    /**
-     * @param  int   $pk      主键
-     * @param  array $columns 查询列
-     * @return mixed 返回一条数据
-     * usage:
-     * $user = new User;
-     * $user->findByPk(3,['username','password'])
-     * $user->findByPk(3)
-     */
-    public function findByPk($pk, $columns ='*')
-    {
-        return $this->fields($columns)->where([$this->primary_key => $pk])->get();
-    }
-
-    /**
-     * 查询单条数据
-     *
-     * @param  string|array $pks     主键
-     * @param  array        $columns 查询列
-     * @return array 返回二维数组
-     * usage:
-     * $user = new User;
-     * $user->find(1,['username','password'])
-     * $user->find(1)
-     */
-    public function find($pk = 0, $columns='')
-    {
-        $pk = (int)$pk;
-        $where = $pk?[$this->primary_key => $pk]:[];
-        return $this->get($where, $columns);
-    }
-
-    /**
-     * 查询多条数据
-     *
-     * @param  string|array $pks     主键
-     * @param  array        $columns 查询列
-     * @return array 返回二维数组
-     * usage:
-     * $user = new User;
-     * $user->findAll([1,2,3],['username','password'])
-     * $user->findAll('1,2,3',['username','password'])
-     * $user->findAll('1,2,3')
-     * $user->findAll([1,2,3])
-     */
-    public function findAll($pks = [], $columns='')
-    {
-        $pks = is_array($pks)?$pks:explode(',', $pks);
-        $where = $pks?[$this->primary_key => $pks]:[];
-        return $this->all($columns, $where);
-    }
-
-    /**
-     * 根据条件查询数据
-     *
-     * @param  array $where
-     * @param  array $columns
-     * @return array 返回二维数组
-     * usage:
-     * $user = new User;
-     * $user->findByCondition(["age"=>34],['username','password'])
-     * $user->findByCondition(["age"=>34])
-     */
-    public function findByCondition($where, $columns='*')
-    {
-        return $this->fields($columns)->where($where)->all();
     }
 
     /**
@@ -323,5 +280,103 @@ class Model
     public function getExecutedSqlList()
     {
         return $this->db->log();
+    }
+
+    /**
+     * @param  int   $pk      主键
+     * @param  array $columns 查询列
+     * @return mixed 返回一条数据
+     * usage:
+     * User::find(3,['username','password'])
+     * User::find(3)
+     */
+    public static function find($pk, $columns ='*')
+    {
+        $obj = self::getInstance();
+        return $obj->fields($columns)->where([$obj->primary_key => $pk])->get();
+    }
+
+    /**
+     * 查询多条数据
+     *
+     * @param  string|array $pks     主键
+     * @param  array        $columns 查询列
+     * @return array 返回二维数组
+     * usage:
+     * User::findAll([1,2,3],['username','password'])
+     * User::findAll('1,2,3',['username','password'])
+     * User::findAll('1,2,3')
+     * User::findAll([1,2,3])
+     */
+    public static function findAll($pks = [], $columns='')
+    {
+        $obj = self::getInstance();
+        $pks = is_array($pks)?$pks:explode(',', $pks);
+        $where = $pks?[$obj->primary_key => $pks]:[];
+        return $obj->all($where,$columns);
+    }
+
+    /**
+     * 根据条件查询数据
+     *
+     * @param  array $where
+     * @param  array $columns
+     * @return array 返回二维数组
+     * usage:
+     * User::findByCondition(["age"=>34],['username','password'])
+     * User::findByCondition(["age"=>34])
+     */
+    public static function findByCondition($where, $columns='*')
+    {
+        return self::getInstance()->fields($columns)->where($where)->all();
+    }
+
+    /**
+     * 原生查询
+     *
+     * 
+     * User::select("SELECT * FROM sls_p_user limit 1");
+     * User::select("SELECT * FROM sls_p_user where id=:id limit 1",[":id"=>1]);
+     */
+    public static function select($sql,$params) {
+        return self::getInstance()->query($sql,$params);
+    }
+
+    /**
+     * 新增或者修改，存在主键则是修改，否则是新增
+     *
+     * @param [array] $data
+     * @return void
+     * 
+     * User::save(['username'=>'json']);//新增
+     * User::save(['username'=>'Json','uid'=>1]);//更改
+     */
+    public static function save($data)
+    {
+        return self::getInstance()->updateOrCreate($data);
+    }
+
+    /**
+     * 新增
+     *
+     * @param [array] $data
+     * @return void
+     
+     * User::create(['username'=>'json']);
+     */
+    public static function create($data)
+    {
+        return self::getInstance()->insert($data);
+    }
+
+    /**
+     * 删除
+     * 
+     * User::destroy('1,2,3');
+     * User::destroy(1);
+     * User::destroy([1,2,3]);
+     */
+    public static function destroy($pks) {
+        return self::getInstance()->deleteByPk($pks);
     }
 }
