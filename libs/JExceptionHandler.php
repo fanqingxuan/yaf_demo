@@ -108,7 +108,7 @@ class JExceptionHandler
             Logger::info("request", $requestData, 'request');
         }
         Logger::info("response", $response, 'request');
-        Logger::setLevel(JContainer::get('config')->logging->level);
+        Logger::setLevel(JContainer::getConfig()->logging->level);
         echo json_encode($response);
         
         exit;

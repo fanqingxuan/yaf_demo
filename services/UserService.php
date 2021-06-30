@@ -1,6 +1,6 @@
 <?php
 
-class UserService extends Service
+class UserService extends JService
 {
     /**
      *

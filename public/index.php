@@ -15,9 +15,10 @@ error_reporting(E_ALL & ~E_NOTICE);
 /* 定义这个常量是为了在application.ini中引用*/
 define('APPLICATION_PATH', dirname(__FILE__).'/../');
 
-require_once APPLICATION_PATH."libs/Loader.php";
+require_once APPLICATION_PATH."libs/kint.phar";
+require_once APPLICATION_PATH."libs/JLoader.php";
 
-spl_autoload_register(['Loader','loadClass']);
+spl_autoload_register(['JLoader','loadClass']);
 
 $envirement = ini_get('yaf.environ');
 $filename = ".env.".$envirement.".ini";

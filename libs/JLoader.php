@@ -1,6 +1,6 @@
 <?php
 
-class Loader
+class JLoader
 {
     //自动加载类
     public static function loadClass($className)
@@ -33,7 +33,7 @@ class Loader
     //加载&注册钩子
     public static function registerHook()
     {
-        $hookConfigDict = require_once("../config/hook.php");
+        $hookConfigDict = require_once(__DIR__."/../config/hook.php");
         $dispatcher = Yaf_Dispatcher::getInstance();
         $dispatcher->registerPlugin(new RequestHook(true));//注册request日志钩子
 

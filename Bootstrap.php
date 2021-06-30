@@ -19,13 +19,18 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
     {
         //把配置保存起来
         $arrConfig = Yaf_Application::app()->getConfig();
-        JContainer::set('config', $arrConfig);
+        JContainer::setConfig($arrConfig);
+    }
+
+    public function _initKint() {
+        Kint::$enabled_mode = JContainer::getConfig()->application->debug == true;
+        Kint\Renderer\RichRenderer::$theme	= 'aante-light.css';
     }
 
     //加载常量
     public function _initConstant()
     {
-        Loader::loadFile(APPLICATION_PATH."constants/");
+        JLoader::loadFile(APPLICATION_PATH."constants/");
     }
 
     
@@ -33,14 +38,14 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
     //加载函数util
     public function _initUtils(Yaf_Dispatcher $dispatcher)
     {
-        Loader::loadFile(APPLICATION_PATH."utils/");
+        JLoader::loadFile(APPLICATION_PATH."utils/");
     }
 
     //初始化log
     public function _initLog()
     {
         ini_set('seaslog.trace_error', 0);
-        Logger::setLevel(JContainer::get('config')->logging->level);
+        Logger::setLevel(JContainer::getConfig()->logging->level);
         Logger::setBasePath(APPLICATION_PATH.'logs');
     }
 
@@ -61,7 +66,7 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
     //注册钩子
     public function _initHook(Yaf_Dispatcher $dispatcher)
     {
-        Loader::registerHook();
+        JLoader::registerHook();
     }
 
     public function _initRoute(Yaf_Dispatcher $dispatcher)
@@ -72,7 +77,7 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
     //初始化Redis
     public function _initRedis()
     {
-        $redisConfigObj = JContainer::get('config')->redis;
+        $redisConfigObj = JContainer::getConfig()->redis;
         /**
          * @var Jredis
          */
@@ -84,19 +89,19 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
             $redis->setOption(JRedis::OPT_PREFIX, $redisConfigObj->prefix);
         }
         $redis->select((int)$redisConfigObj->dbIndex);
-        JContainer::set('redis', $redis);
+        JContainer::setRedis($redis);
     }
 
     //初始化数据库连接
     public function _initDatabase()
     {
-        $config = JContainer::get('config')->database->toArray();
+        $config = JContainer::getConfig()->database->toArray();
         $config = $config + [
             'option'   =>   [
                 PDO::ATTR_ERRMODE   => PDO::ERRMODE_EXCEPTION
             ],
         ];
-        JContainer::set('db', new Medoo($config));
+        JContainer::setDb(new Medoo($config));
     }
     
     public function _initView(Yaf_Dispatcher $dispatcher)
