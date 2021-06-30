@@ -466,7 +466,7 @@ class Yaf_Response_Cli extends Yaf_Response_Abstract {
 }
 abstract class Yaf_Controller_Abstract {
 	/* methods */
-	public function __construct($request, $response, $view, array $args = NULL) {
+	private function __construct($request, $response, $view, array $args = NULL) {
 	}
 	protected function render($tpl, array $parameters = NULL) {
 	}
@@ -476,6 +476,10 @@ abstract class Yaf_Controller_Abstract {
 	}
 	public function getResponse():Yaf_Response_Abstract {
 	}
+    
+    public function init() {
+    }
+    
 	public function getView() {
 	}
 	public function getName() {

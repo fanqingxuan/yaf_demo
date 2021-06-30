@@ -17,11 +17,15 @@ class HomeController extends Controller
     public function init()
     {
         parent::init();
-        $this->postService = new PostService;
-        $this->userService = new UserService;
+      
     }
     public function indexAction()
     {
+        UserModel::getInstance();
+        PostModel::getInstance();
+        $a = UserModel::getInstance();
+        $b = PostModel::getInstance();
+        dump($a->tableName(),$b->tableName());
         Logger::error("控制器日志", "helloworld");
         dump($GLOBALS, $_SERVER); // pass any number of parameters
         dump($GLOBALS, $_SERVER); // pass any number of parameters

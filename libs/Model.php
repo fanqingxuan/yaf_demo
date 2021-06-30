@@ -1,6 +1,6 @@
 <?php
 
-class Model
+class Model extends JSingleton
 {
     protected $primary_key = 'id';
     
@@ -13,28 +13,9 @@ class Model
     private $where = [];
     private $columns = '*';
 
-    private static $instance = null;
-
-    final public function __construct()
+    public function init()
     {
         $this->db = JContainer::getDb();
-    }
-
-    private function __clone()
-    {
-    }
-
-    /**
-     * 单例模式
-     *
-     * @return $this 返回当前对象
-     */
-    public static function getInstance()
-    {
-        if (!(self::$instance instanceof static)) {
-            self::$instance = new static();
-        }
-        return self::$instance;
     }
 
     /**

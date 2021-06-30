@@ -109,6 +109,7 @@ class JExceptionHandler
         }
         Logger::info("response", $response, 'request');
         Logger::setLevel(JContainer::getConfig()->logging->level);
+        ob_end_clean();
         echo json_encode($response);
         
         exit;
