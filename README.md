@@ -10,7 +10,7 @@
 - 集成了seaslog高性能日志组件，用来记录业务日志，error日志以及request日志
 - 集成了phpredis类库，封装成JRedis，方便使用redis，也可以提取出来用到自己的项目里面，这个类库包含了phpredis的所有函数，便于编辑器智能提示
 - 集成了Medoo作为数据库连接层，在BaseModel里面进行了简单封装，便于业务model做快速的增删改查
-- dev-tools目录提供了代码命名规范工具**phpmd**、psr代码美化工具**php-cs-fixer**、代码格式化工具**phpcbf**以及语法错误检查工具**phpcs**、**phpstan**
+- dev-tools目录提供了psr代码美化工具**php-cs-fixer**、语法错误检查工具**phpstan**;以及redis类和yaf类的原型，便于编辑器智能提示
 - 目录结构
   - controllers  控制器目录
   - models 做数据库的查询
