@@ -22,7 +22,8 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
         JContainer::setConfig($arrConfig);
     }
 
-    public function _initKint() {
+    public function _initKint()
+    {
         Kint::$enabled_mode = JContainer::getConfig()->application->debug == true;
         Kint\Renderer\RichRenderer::$theme	= 'aante-light.css';
     }

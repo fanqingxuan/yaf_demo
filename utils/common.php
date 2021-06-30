@@ -1,5 +1,5 @@
 <?php
-if(!function_exists('dump')) {
+if (!function_exists('dump')) {
     function dump()
     {
         $args = func_get_args();
@@ -9,7 +9,7 @@ if(!function_exists('dump')) {
     Kint::$aliases[] = 'dump';
 }
 
-if(!function_exists('dd')) {
+if (!function_exists('dd')) {
     function dd()
     {
         $args = func_get_args();

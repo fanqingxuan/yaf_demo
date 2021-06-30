@@ -17,8 +17,9 @@ class JContainer
      * @param Medoo $db
      * @return void
      */
-    public static function setDb(Medoo $db) {
-        self::set('db',$db);
+    public static function setDb(Medoo $db)
+    {
+        self::set('db', $db);
     }
 
     /**
@@ -35,15 +36,18 @@ class JContainer
      * @param JRedis $JRedis
      * @return void
      */
-    public static function setRedis(JRedis $JRedis) {
-        self::set('redis',$JRedis);
+    public static function setRedis(JRedis $JRedis)
+    {
+        self::set('redis', $JRedis);
     }
 
-    public static function setConfig($config) {
-        self::set('config',$config);
+    public static function setConfig($config)
+    {
+        self::set('config', $config);
     }
 
-    public static function getConfig() {
+    public static function getConfig()
+    {
         return self::get('config');
     }
 

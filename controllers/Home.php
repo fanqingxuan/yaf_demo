@@ -26,7 +26,7 @@ class HomeController extends Controller
         dump($GLOBALS, $_SERVER); // pass any number of parameters
         dump($GLOBALS, $_SERVER); // pass any number of parameters
 
-        return $this->success('成功', UserModel::select("select username,rname from sls_p_user where suid=? and username=?",[1,'1']));
+        return $this->success('成功', UserModel::select("select username,rname from sls_p_user where suid=? and username=?", [1,'1']));
     }
 
     public function userAction()

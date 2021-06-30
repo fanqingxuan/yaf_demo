@@ -22,7 +22,6 @@ class Model
 
     private function __clone()
     {
-        
     }
 
     /**
@@ -30,8 +29,9 @@ class Model
      *
      * @return $this 返回当前对象
      */
-    public static function getInstance() {
-        if(!(self::$instance instanceof static)) {
+    public static function getInstance()
+    {
+        if (!(self::$instance instanceof static)) {
             self::$instance = new static();
         }
         return self::$instance;
@@ -313,7 +313,7 @@ class Model
         $obj = self::getInstance();
         $pks = is_array($pks)?$pks:explode(',', $pks);
         $where = $pks?[$obj->primary_key => $pks]:[];
-        return $obj->all($where,$columns);
+        return $obj->all($where, $columns);
     }
 
     /**
@@ -334,12 +334,13 @@ class Model
     /**
      * 原生查询
      *
-     * 
+     *
      * User::select("SELECT * FROM sls_p_user limit 1");
      * User::select("SELECT * FROM sls_p_user where id=:id limit 1",[":id"=>1]);
      */
-    public static function select($sql,$params) {
-        return self::getInstance()->query($sql,$params);
+    public static function select($sql, $params)
+    {
+        return self::getInstance()->query($sql, $params);
     }
 
     /**
@@ -347,7 +348,7 @@ class Model
      *
      * @param [array] $data
      * @return void
-     * 
+     *
      * User::save(['username'=>'json']);//新增
      * User::save(['username'=>'Json','uid'=>1]);//更改
      */
@@ -361,7 +362,7 @@ class Model
      *
      * @param [array] $data
      * @return void
-     
+
      * User::create(['username'=>'json']);
      */
     public static function create($data)
@@ -371,12 +372,13 @@ class Model
 
     /**
      * 删除
-     * 
+     *
      * User::destroy('1,2,3');
      * User::destroy(1);
      * User::destroy([1,2,3]);
      */
-    public static function destroy($pks) {
+    public static function destroy($pks)
+    {
         return self::getInstance()->deleteByPk($pks);
     }
 }
