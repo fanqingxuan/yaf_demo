@@ -24,7 +24,7 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
 
     public function _initKint()
     {
-        Kint::$enabled_mode = JContainer::getConfig()->application->debug == true;
+        Kint::$enabled_mode = JContainer::isDebug();
         Kint\Renderer\RichRenderer::$theme	= 'aante-light.css';
     }
 
@@ -46,7 +46,7 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
     public function _initLog()
     {
         ini_set('seaslog.trace_error', 0);
-        Logger::setLevel(JContainer::getConfig()->logging->level);
+        Logger::setLevel(JContainer::getLogLevel());
         Logger::setBasePath(APPLICATION_PATH.'logs');
     }
 
@@ -78,7 +78,7 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
     //初始化Redis
     public function _initRedis()
     {
-        $redisConfigObj = JContainer::getConfig()->redis;
+        $redisConfigObj = JContainer::getRedisConfig();
         /**
          * @var Jredis
          */
@@ -96,7 +96,7 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
     //初始化数据库连接
     public function _initDatabase()
     {
-        $config = JContainer::getConfig()->database->toArray();
+        $config = JContainer::getDBConfig()->toArray();
         $config = $config + [
             'option'   =>   [
                 PDO::ATTR_ERRMODE   => PDO::ERRMODE_EXCEPTION

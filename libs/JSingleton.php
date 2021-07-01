@@ -9,6 +9,10 @@ class JSingleton {
     final private function __construct(){
         $this->init();
     }
+
+    public function init() {
+
+    }
     
     //禁止
     final private function __clone(){}
@@ -16,12 +20,13 @@ class JSingleton {
     /**
      * 单例模式
      *
-     * @return $this 返回当前对象
+     * @return static 返回当前对象
      */
     public static function getInstance()
     {
         $className = static::class;
         if (!(self::$instance[$className] instanceof static)) {
+            echo 1;
             self::$instance[$className] = new static();
         }
         return self::$instance[$className];

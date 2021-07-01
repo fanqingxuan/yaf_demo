@@ -70,7 +70,9 @@ class JExceptionHandler
             }
         }
         
-        header('Content-Type:application/json; charset=utf-8');
+        if(!JContainer::isDebug()) {
+            header('Content-Type:application/json; charset=utf-8');
+        }
         
         $notFoundCode = [YAF_ERR_NOTFOUND_MODULE,YAF_ERR_NOTFOUND_CONTROLLER,YAF_ERR_NOTFOUND_ACTION,YAF_ERR_NOTFOUND_VIEW];
         
@@ -108,7 +110,7 @@ class JExceptionHandler
             Logger::info("request", $requestData, 'request');
         }
         Logger::info("response", $response, 'request');
-        Logger::setLevel(JContainer::getConfig()->logging->level);
+        Logger::setLevel(JContainer::getLogLevel());
         ob_end_clean();
         echo json_encode($response);
         

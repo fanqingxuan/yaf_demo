@@ -8,9 +8,9 @@ class PostService extends JService
      */
     private $postModel;
 
-    public function __construct()
+    public function init()
     {
-        parent::__construct();
+        parent::init();
 
         $this->postModel = new PostModel;
     }

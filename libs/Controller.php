@@ -38,7 +38,7 @@ class Controller extends Yaf_Controller_Abstract
         $response = $this->getResponse();
         $response->clearBody();
         $response->setBody(json_encode($content));
-        if (!JContainer::getConfig()->application->debug) {
+        if (!JContainer::isDebug()) {
             $response->setHeader('Content-Type', 'application/json; charset=utf-8');
         }
         return $response;

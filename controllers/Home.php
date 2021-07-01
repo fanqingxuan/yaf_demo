@@ -17,20 +17,16 @@ class HomeController extends Controller
     public function init()
     {
         parent::init();
+        $this->userService = UserService::getInstance();
       
     }
     public function indexAction()
     {
-        UserModel::getInstance();
-        PostModel::getInstance();
-        $a = UserModel::getInstance();
-        $b = PostModel::getInstance();
-        dump($a->tableName(),$b->tableName());
         Logger::error("控制器日志", "helloworld");
         dump($GLOBALS, $_SERVER); // pass any number of parameters
         dump($GLOBALS, $_SERVER); // pass any number of parameters
 
-        return $this->success('成功', UserModel::select("select username,rname from sls_p_user where suid=? and username=?", [1,'1']));
+        return $this->success('成功',$this->userService->findUser(1) );
     }
 
     public function userAction()

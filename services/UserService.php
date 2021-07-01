@@ -8,18 +8,17 @@ class UserService extends JService
      */
     private $userModel;
 
-    public function __construct()
+    public function init()
     {
-        parent::__construct();
-        $this->userModel = new UserModel;
+        parent::init();
+        $this->userModel = UserModel::getInstance();
     }
 
     public function findUser($userId)
     {
-        return $this->userModel->find($userId);
         $data = $this->redis->hGetAll("user:".$userId);
         if (!$data) {
-            $data = $this->userModel->findByPk($userId);
+            $data = $this->userModel->find($userId);
             $this->redis->hMSet("user:".$userId, $data);
         }
         return $data;

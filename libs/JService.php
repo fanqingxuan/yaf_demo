@@ -1,10 +1,10 @@
 <?php
 
-class JService
+class JService extends JSingleton
 {
     protected $redis;
 
-    public function __construct()
+    public function init()
     {
         $this->redis = JContainer::getRedis();
     }
