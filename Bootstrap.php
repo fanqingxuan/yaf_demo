@@ -27,13 +27,6 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
         Kint::$enabled_mode = JContainer::isDebug();
         Kint\Renderer\RichRenderer::$theme	= 'aante-light.css';
     }
-
-    //加载常量
-    public function _initConstant()
-    {
-        JLoader::loadFile(APPLICATION_PATH."constants/");
-    }
-
     
 
     //加载函数util

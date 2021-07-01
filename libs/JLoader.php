@@ -8,12 +8,13 @@ class JLoader
         $dirList = [
             'services',
             'models',
-            'hooks'
+            'hooks',
+            'constants'
         ];
         foreach ($dirList as $dir) {
             $fileName = APPLICATION_PATH.$dir.'/'.$className.'.php';
             if (file_exists($fileName)) {
-                include_once $fileName;
+                require_once $fileName;
             }
         }
     }

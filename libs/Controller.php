@@ -14,16 +14,21 @@ class Controller extends Yaf_Controller_Abstract
      */
     protected $response;
 
+    final function __construct()
+    {
+        
+    }
+
     public function init()
     {
     }
 
-    public function success($message, $data = [], $code = SUCCESS_CODE)
+    public function success($message, $data = [], $code = ResponseCode::SUCCESS)
     {
         return $this->setContent($data, $message, $code);
     }
 
-    public function error($message, $data = [], $code = FAIL_CODE)
+    public function error($message, $data = [], $code = ResponseCode::FAIL)
     {
         return $this->setContent($data, $message, $code);
     }

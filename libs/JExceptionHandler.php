@@ -76,27 +76,30 @@ class JExceptionHandler
         
         $notFoundCode = [YAF_ERR_NOTFOUND_MODULE,YAF_ERR_NOTFOUND_CONTROLLER,YAF_ERR_NOTFOUND_ACTION,YAF_ERR_NOTFOUND_VIEW];
         
-        $statusCode = SERVER_INTERNAL_ERROR_CODE;
+        $statusCode = HttpStatusCode::SERVER_INTERNAL_ERROR;
+        $responseCode = ResponseCode::SERVER_INTERNAL_ERROR;
+
         $msg = '服务器内部错误';
         $bWriteExceptionLog = true;//是否记录exception日志
         if (in_array($code, $notFoundCode)) {
-            $statusCode = NOT_FOUND_CODE;
+            $statusCode = HttpStatusCode::NOT_FOUND;
             $msg = '页面不存在';
             $bWriteExceptionLog = false;
+            $responseCode = ResponseCode::NOT_FOUND;
         }
 
         if ($exception instanceof JException) {
-            $statusCode = JException_CODE;
+            $statusCode = HttpStatusCode::OK;
             $msg = $exception->getMessage();
             $bWriteExceptionLog = false;
+            $responseCode = $exception->getCode();
         }
 
         if ($bWriteExceptionLog) {
             Logger::error("", $message, 'error');
         }
-       
-        http_response_code($statusCode);
-        $response = ['code'=>$statusCode,'message'=>$msg,'data'=>[]];
+        
+        $response = ['code'=>$responseCode,'message'=>$msg,'data'=>[]];
         Logger::setLevel('info');
         $request = Yaf_Dispatcher::getInstance()->getRequest();
         if (!$request->isRouted()) {//补充request的日志
@@ -112,9 +115,9 @@ class JExceptionHandler
         Logger::info("response", $response, 'request');
         Logger::setLevel(JContainer::getLogLevel());
         ob_end_clean();
+        http_response_code($statusCode);
         echo json_encode($response);
-        
-        exit;
+        die;
     }
 
     public function errorHandler($severity, $message, $file, $line)

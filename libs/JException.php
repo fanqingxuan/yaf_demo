@@ -2,9 +2,9 @@
 
 class JException extends Exception
 {
-    public function __construct($message, $code = JException_CODE)
+    public function __construct($message)
     {
         $this->message = $message;
-        $this->code = $code;
+        $this->code = ResponseCode::JEXCEPTION;
     }
 }

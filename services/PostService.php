@@ -12,7 +12,7 @@ class PostService extends JService
     {
         parent::init();
 
-        $this->postModel = new PostModel;
+        $this->postModel = PostModel::getInstance();
     }
 
     public function findAllPost()
