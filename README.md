@@ -3,14 +3,15 @@
 - yaf扩展3.2.5
 - Seaslog扩展
 - phpredis扩展(需要使用redis的话)
-
+- Phinx
 
 ### 框架说明
 该项目使用yaf搭建的一个开箱即用的web api项目
 - 集成了seaslog高性能日志组件，用来记录业务日志，error日志以及request日志
 - 集成了phpredis类库，封装成JRedis，方便使用redis，也可以提取出来用到自己的项目里面，这个类库包含了phpredis的所有函数，便于编辑器智能提示
 - 集成了Medoo作为数据库连接层，在BaseModel里面进行了简单封装，便于业务model做快速的增删改查
-- dev-tools目录提供了psr代码美化工具**php-cs-fixer**、语法错误检查工具**phpstan**;以及redis类和yaf类的原型，便于编辑器智能提示
+- 集成了Phinx数据库迁移管理工具，方便表结构的升级
+- dev-tools目录提供了psr代码美化工具**php-cs-fixer**、语法错误检查工具**phpstan**;以及redis、yaf、phinx、seaslog类的原型，便于编辑器智能提示
 - 目录结构
   - controllers  控制器目录
   - models 做数据库的查询
@@ -19,7 +20,7 @@
   - logs 日志目录，里面有default子目录作为业务日志，error子目录错误日志，request子目录做请求日志，日志按天生成文件
   - libs 类库目录
   - hooks 中间件钩子目录
-  - constants 常量目录
+  - constants 常量类目录
   - utils 辅助函数目录
 
 ### model
@@ -45,7 +46,7 @@ class UserModel extends BaseModel
 - 添加
 
   ```php
-  $model = new PostModel;
+  $model = PostModel::getInstance();;
   $post = [
       'user_id'   =>  11,
       'content'   =>  '这是内容',
@@ -60,7 +61,7 @@ class UserModel extends BaseModel
 - 删除
 
   ```php
-  $model = new PostModel;
+  $model = PostModel::getInstance();
   $deleteCount = $model->deleteByPk('1,2,3');//pk是字符串
   $deleteCount = $model->deleteByPk([1,2,3]);//pk是数组
   $deleteCount = $model->delete(['id'=>[1,2,3]]);//根据where条件删除
@@ -73,7 +74,7 @@ class UserModel extends BaseModel
 - 修改
 
   ```php
-  $model = new PostModel;
+  $model = PostModel::getInstance();
   $data = [
       'content'   =>  'this is 444',
   ];

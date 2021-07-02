@@ -1910,7 +1910,7 @@ class Yaf_Response_Http extends Yaf_Response_Abstract {
     /**
      * @return string
      */
-    private function __toString(){ }
+    public function __toString(){ }
 
 
     /**
@@ -1983,7 +1983,7 @@ class Yaf_Response_Cli extends Yaf_Response_Abstract {
     /**
      * @return string
      */
-    private function __toString(){ }
+    public function __toString(){ }
 }
 
 /**
