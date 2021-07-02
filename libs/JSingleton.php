@@ -1,21 +1,24 @@
 <?php
 //php单例模式
 
-class JSingleton {
-    
+class JSingleton
+{
     private static $instance = [];
     
     //禁止new
-    final private function __construct(){
+    final private function __construct()
+    {
         $this->init();
     }
 
-    public function init() {
-
+    public function init()
+    {
     }
     
     //禁止
-    final private function __clone(){}
+    final private function __clone()
+    {
+    }
     
     /**
      * 单例模式

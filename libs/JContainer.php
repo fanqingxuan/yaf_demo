@@ -46,19 +46,23 @@ class JContainer
         self::set('config', $config);
     }
 
-    public static function getRedisConfig() {
+    public static function getRedisConfig()
+    {
         return self::get('config')->redis ?? [];
     }
 
-    public static function getDBConfig() {
+    public static function getDBConfig()
+    {
         return self::get('config')->database ??[];
     }
 
-    public static function isDebug() {
+    public static function isDebug()
+    {
         return self::get('config')->application && self::get('config')->application->debug == 1;
     }
 
-    public static function getLogLevel() {
+    public static function getLogLevel()
+    {
         return self::get('config')->logging?self::get('config')->logging->level:'warn';
     }
 

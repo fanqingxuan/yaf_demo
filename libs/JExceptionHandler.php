@@ -70,7 +70,7 @@ class JExceptionHandler
             }
         }
         
-        if(!JContainer::isDebug()) {
+        if (!JContainer::isDebug()) {
             header('Content-Type:application/json; charset=utf-8');
         }
         

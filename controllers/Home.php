@@ -18,7 +18,6 @@ class HomeController extends Controller
     {
         parent::init();
         $this->userService = UserService::getInstance();
-      
     }
     public function indexAction()
     {
@@ -26,7 +25,7 @@ class HomeController extends Controller
         dump($GLOBALS, $_SERVER); // pass any number of parameters
         dump($GLOBALS, $_SERVER); // pass any number of parameters
 
-        return $this->success('成功',$this->userService->findUser(1) );
+        return $this->success('成功', $this->userService->findUser(1));
     }
 
     public function userAction()

@@ -1,7 +1,7 @@
 <?php
 
-class HttpStatusCode {
-
+class HttpStatusCode
+{
     const OK = 200;//OK
 
     const UNAUTHORIZED = 401;//Unauthorized

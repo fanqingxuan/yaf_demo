@@ -1,7 +1,7 @@
 <?php
 
-class ResponseCode {
-
+class ResponseCode
+{
     const SUCCESS = 0;//成功返回
     const FAIL = 1;//失败
     const JEXCEPTION = 2;//自定义异常返回code

@@ -14,9 +14,8 @@ class Controller extends Yaf_Controller_Abstract
      */
     protected $response;
 
-    final function __construct()
+    final public function __construct()
     {
-        
     }
 
     public function init()
