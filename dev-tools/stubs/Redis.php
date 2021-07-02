@@ -1,4 +1,3 @@
-  
 <?php
 
 /**
@@ -19,7 +18,7 @@ class Redis
     const OPT_PREFIX            = 2;
     const OPT_READ_TIMEOUT      = 3;
     const OPT_SCAN              = 4;
-    const OPT_SLAVE_FAILOVER    = 5;
+    const OPT_FAILOVER          = 5;
     const OPT_TCP_KEEPALIVE     = 6;
     const OPT_COMPRESSION       = 7;
     const OPT_REPLY_LITERAL     = 8;
@@ -31,14 +30,13 @@ class Redis
     const FAILOVER_NONE         = 0;
     const FAILOVER_ERROR        = 1;
     const FAILOVER_DISTRIBUTE   = 2;
+    const FAILOVER_DISTRIBUTE_SLAVES = 3;
 
     /**
      * SCAN options
      */
     const SCAN_NORETRY          = 0;
     const SCAN_RETRY            = 1;
-    const SCAN_PREFIX           = 2;
-    const SCAN_NOPREFIX         = 3;
 
     /**
      * Serializers
@@ -48,21 +46,6 @@ class Redis
     const SERIALIZER_IGBINARY   = 2;
     const SERIALIZER_MSGPACK    = 3;
     const SERIALIZER_JSON       = 4;
-
-    /**
-     * Compressions
-     */
-    const COMPRESSION_NONE      = 0;
-    const COMPRESSION_LZF       = 1;
-    const COMPRESSION_ZSTD      = 2;
-    const COMPRESSION_LZ4       = 3;
-
-    /**
-     * Compression ZSTD levels
-     */
-    const COMPRESSION_ZSTD_MIN = 1;
-    const COMPRESSION_ZSTD_DEFAULT = 3;
-    const COMPRESSION_ZSTD_MAX = 22;
 
     /**
      * Multi
@@ -381,13 +364,14 @@ class Redis
     /**
      * Check the current connection status
      *
-     * @return  string STRING: +PONG on success.
+     * @param string $message
+     *
+     * @return bool|string TRUE if the command is successful or returns message
      * Throws a RedisException object on connectivity error, as described above.
      * @throws RedisException
      * @link    https://redis.io/commands/ping
      */
-    public function ping()
-    {
+    public function ping($message) {
     }
 
     /**
@@ -480,7 +464,7 @@ class Redis
      * @return bool TRUE if the command is successful
      *
      * @link    https://redis.io/commands/setex
-     * @example $redis->setex('key', 3600, 'value'); // sets key °˙ value, with 1h TTL.
+     * @example $redis->setex('key', 3600, 'value'); // sets key ‚Üí value, with 1h TTL.
      */
     public function setex($key, $ttl, $value)
     {
@@ -497,7 +481,7 @@ class Redis
      * @return bool TRUE if the command is successful
      *
      * @link    https://redis.io/commands/psetex
-     * @example $redis->psetex('key', 1000, 'value'); // sets key °˙ value, with 1sec TTL.
+     * @example $redis->psetex('key', 1000, 'value'); // sets key ‚Üí value, with 1sec TTL.
      */
     public function psetex($key, $ttl, $value)
     {
@@ -1531,7 +1515,7 @@ class Redis
      * @param string $key
      *
      * @return int the cardinality of the set identified by key, 0 if the set doesn't exist.
-     * 
+     *
      * @link    https://redis.io/commands/scard
      * @example
      * <pre>
@@ -2001,8 +1985,8 @@ class Redis
      * <pre>
      * $redis->set('x', '42');
      * $redis->rename('x', 'y');
-     * $redis->get('y');   // °˙ 42
-     * $redis->get('x');   // °˙ `FALSE`
+     * $redis->get('y');   // ‚Üí 42
+     * $redis->get('x');   // ‚Üí `FALSE`
      * </pre>
      */
     public function rename($srcKey, $dstKey)
@@ -2037,8 +2021,8 @@ class Redis
      * <pre>
      * $redis->set('x', '42');
      * $redis->rename('x', 'y');
-     * $redis->get('y');   // °˙ 42
-     * $redis->get('x');   // °˙ `FALSE`
+     * $redis->get('y');   // ‚Üí 42
+     * $redis->get('x');   // ‚Üí `FALSE`
      * </pre>
      */
     public function renameNx($srcKey, $dstKey)
@@ -2107,7 +2091,7 @@ class Redis
      * @param int    $timestamp Unix timestamp. The key's date of death, in seconds from Epoch time.
      *
      * @return bool TRUE in case of success, FALSE in case of failure
-     * 
+     *
      * @link    https://redis.io/commands/expireat
      * @example
      * <pre>
@@ -2189,19 +2173,15 @@ class Redis
     }
 
     /**
-     * Authenticate the connection using a password or a username and password..
+     * Authenticate the connection using a password.
      * Warning: The password is sent in plain-text over the network.
      *
-     * @param mixed $password
+     * @param string $password
      *
      * @return bool TRUE if the connection is authenticated, FALSE otherwise
      *
      * @link    https://redis.io/commands/auth
-     * @example
-     * <pre>
-     * $redis->auth('bar'); // Authenticate with the password 'bar'
-     * $redis->auth(['user' => 'foo', 'pass' => 'bar]); // Authenticate with the username 'foo', and password 'bar' 
-     * </pre>
+     * @example $redis->auth('foobared');
      */
     public function auth($password)
     {
@@ -2289,9 +2269,9 @@ class Redis
      * @example
      * <pre>
      * $redis->lPush('l', 'Hello, world!');
-     * $redis->object("encoding", "l"); // °˙ ziplist
-     * $redis->object("refcount", "l"); // °˙ 1
-     * $redis->object("idletime", "l"); // °˙ 400 (in seconds, with a precision of 10 seconds).
+     * $redis->object("encoding", "l"); // ‚Üí ziplist
+     * $redis->object("refcount", "l"); // ‚Üí 1
+     * $redis->object("idletime", "l"); // ‚Üí 400 (in seconds, with a precision of 10 seconds).
      * </pre>
      */
     public function object($string = '', $key = '')
@@ -2777,7 +2757,7 @@ class Redis
      *
      * @param string $key
      *
-     * @return bool TRUE if a timeout was removed, FALSE if the key didn°Øt exist or didn°Øt have an expiration timer.
+     * @return bool TRUE if a timeout was removed, FALSE if the key didn‚Äôt exist or didn‚Äôt have an expiration timer.
      *
      * @link    https://redis.io/commands/persist
      * @example $redis->persist('key');
@@ -2952,7 +2932,7 @@ class Redis
      * @example
      * <pre>
      * <pre>
-     * $redis->zAdd('z', 1, 'v1', 2, 'v2', 3, 'v3', 4, 'v4' );  // int(4)
+     * $redis->zAdd('z', 1, 'v1', 2, 'v2', 3, 'v3', 4, 'v4' );  // int(2)
      * $redis->zRem('z', 'v2', 'v3');                           // int(2)
      * $redis->zAdd('z', ['NX'], 5, 'v5');                      // int(1)
      * $redis->zAdd('z', ['NX'], 6, 'v5');                      // int(0)
@@ -3867,7 +3847,7 @@ class Redis
      * <pre>
      * $redis->del('h');
      * $redis->hIncrBy('h', 'x', 2); // returns 2: h[x] = 2 now.
-     * $redis->hIncrBy('h', 'x', 1); // h[x] °˚ 2 + 1. Returns 3
+     * $redis->hIncrBy('h', 'x', 1); // h[x] ‚Üê 2 + 1. Returns 3
      * </pre>
      */
     public function hIncrBy($key, $hashKey, $value)
@@ -3912,7 +3892,7 @@ class Redis
      * NULL values are stored as empty strings
      *
      * @param string $key
-     * @param array  $hashKeys key °˙ value array
+     * @param array  $hashKeys key ‚Üí value array
      *
      * @return bool
      *
@@ -4023,6 +4003,7 @@ class Redis
 
     /**
      * Retrieve Geohash strings for one or more elements of a geospatial index.
+
      * @param string $key
      * @param string ...$member variadic list of members
      *
@@ -4664,7 +4645,7 @@ class Redis
      * @param string|array $key
      *
      * @return int
-     * 
+     *
      * @link    https://redis.io/commands/pfcount
      * @example
      * <pre>
@@ -5088,5 +5069,148 @@ class RedisArray
      */
     public function _rehash()
     {
+    }
+
+    /**
+     * Returns an associative array of strings and integers, with the following keys:
+     * - redis_version
+     * - redis_git_sha1
+     * - redis_git_dirty
+     * - redis_build_id
+     * - redis_mode
+     * - os
+     * - arch_bits
+     * - multiplexing_api
+     * - atomicvar_api
+     * - gcc_version
+     * - process_id
+     * - run_id
+     * - tcp_port
+     * - uptime_in_seconds
+     * - uptime_in_days
+     * - hz
+     * - lru_clock
+     * - executable
+     * - config_file
+     * - connected_clients
+     * - client_longest_output_list
+     * - client_biggest_input_buf
+     * - blocked_clients
+     * - used_memory
+     * - used_memory_human
+     * - used_memory_rss
+     * - used_memory_rss_human
+     * - used_memory_peak
+     * - used_memory_peak_human
+     * - used_memory_peak_perc
+     * - used_memory_peak
+     * - used_memory_overhead
+     * - used_memory_startup
+     * - used_memory_dataset
+     * - used_memory_dataset_perc
+     * - total_system_memory
+     * - total_system_memory_human
+     * - used_memory_lua
+     * - used_memory_lua_human
+     * - maxmemory
+     * - maxmemory_human
+     * - maxmemory_policy
+     * - mem_fragmentation_ratio
+     * - mem_allocator
+     * - active_defrag_running
+     * - lazyfree_pending_objects
+     * - mem_fragmentation_ratio
+     * - loading
+     * - rdb_changes_since_last_save
+     * - rdb_bgsave_in_progress
+     * - rdb_last_save_time
+     * - rdb_last_bgsave_status
+     * - rdb_last_bgsave_time_sec
+     * - rdb_current_bgsave_time_sec
+     * - rdb_last_cow_size
+     * - aof_enabled
+     * - aof_rewrite_in_progress
+     * - aof_rewrite_scheduled
+     * - aof_last_rewrite_time_sec
+     * - aof_current_rewrite_time_sec
+     * - aof_last_bgrewrite_status
+     * - aof_last_write_status
+     * - aof_last_cow_size
+     * - changes_since_last_save
+     * - aof_current_size
+     * - aof_base_size
+     * - aof_pending_rewrite
+     * - aof_buffer_length
+     * - aof_rewrite_buffer_length
+     * - aof_pending_bio_fsync
+     * - aof_delayed_fsync
+     * - loading_start_time
+     * - loading_total_bytes
+     * - loading_loaded_bytes
+     * - loading_loaded_perc
+     * - loading_eta_seconds
+     * - total_connections_received
+     * - total_commands_processed
+     * - instantaneous_ops_per_sec
+     * - total_net_input_bytes
+     * - total_net_output_bytes
+     * - instantaneous_input_kbps
+     * - instantaneous_output_kbps
+     * - rejected_connections
+     * - maxclients
+     * - sync_full
+     * - sync_partial_ok
+     * - sync_partial_err
+     * - expired_keys
+     * - evicted_keys
+     * - keyspace_hits
+     * - keyspace_misses
+     * - pubsub_channels
+     * - pubsub_patterns
+     * - latest_fork_usec
+     * - migrate_cached_sockets
+     * - slave_expires_tracked_keys
+     * - active_defrag_hits
+     * - active_defrag_misses
+     * - active_defrag_key_hits
+     * - active_defrag_key_misses
+     * - role
+     * - master_replid
+     * - master_replid2
+     * - master_repl_offset
+     * - second_repl_offset
+     * - repl_backlog_active
+     * - repl_backlog_size
+     * - repl_backlog_first_byte_offset
+     * - repl_backlog_histlen
+     * - master_host
+     * - master_port
+     * - master_link_status
+     * - master_last_io_seconds_ago
+     * - master_sync_in_progress
+     * - slave_repl_offset
+     * - slave_priority
+     * - slave_read_only
+     * - master_sync_left_bytes
+     * - master_sync_last_io_seconds_ago
+     * - master_link_down_since_seconds
+     * - connected_slaves
+     * - min-slaves-to-write
+     * - min-replicas-to-write
+     * - min_slaves_good_slaves
+     * - used_cpu_sys
+     * - used_cpu_user
+     * - used_cpu_sys_children
+     * - used_cpu_user_children
+     * - cluster_enabled
+     *
+     * @link    https://redis.io/commands/info
+     * @return  array
+     * @example
+     * <pre>
+     * $redis->info();
+     * </pre>
+     */
+    public function info() {
     }
 }
